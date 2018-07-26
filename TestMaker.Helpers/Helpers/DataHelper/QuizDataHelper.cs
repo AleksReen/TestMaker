@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestMaker.Models.ViewModels;
 
-namespace TestMakerWebApp.Helpers.DataHelper
+namespace TestMaker.Helpers.Helpers.DataHelper
 {
     public static class QuizDataHelper
     {
