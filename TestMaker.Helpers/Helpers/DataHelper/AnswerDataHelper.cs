@@ -12,14 +12,17 @@ namespace TestMaker.Helpers.Helpers.DataHelper
 
         public static List<AnswerViewModel> GetAnswerViewModelsList(int questionId)
         {
-            var sampleAnswers = new List<AnswerViewModel>() { new AnswerViewModel {
-
-                Id = 1,
-                QuestionId = questionId,
-                Text = "Friends and family",
-                CreateDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now
-            } };
+            var sampleAnswers = new List<AnswerViewModel>()
+            {
+                new AnswerViewModel
+                {
+                    Id = 1,
+                    QuestionId = questionId,
+                    Text = "Friends and family",
+                    CreateDate = DateTime.Now,
+                    LastModifiedDate = DateTime.Now
+                }
+            };
 
             for (int i = 2; i < 5; i++)
             {
