@@ -12,7 +12,13 @@ namespace TestMakerWebApp.Controllers
     [Route("api/[controller]")]
     public class QuestionController : Controller
     {
+        private ITestDataProcessor dataProcessor;
+
+        public QuestionController(ITestDataProcessor testDataProcessor)
+        {
+            dataProcessor = testDataProcessor;
+        }
         [HttpGet("All/{quizId}")]
-        public IActionResult All(int quizId) => new JsonResult( QuestionDataHelper.GetQuestionViewModelsList(quizId), QuestionDataHelper.JsonSettings);
+        public IActionResult All(int quizId) => new JsonResult(dataProcessor.GetQuestionViewModelsList(quizId), dataProcessor.JsonSettings);
     }
 }
