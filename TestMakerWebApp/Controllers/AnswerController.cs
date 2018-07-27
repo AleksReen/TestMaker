@@ -19,6 +19,22 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpGet("All/{questionId}")]
-        public IActionResult All(int questionId) => new JsonResult(dataProcessor.GetAnswerViewModelsList(questionId), dataProcessor.JsonSettings);          
+        public IActionResult All(int questionId) => new JsonResult(dataProcessor.GetAnswerViewModelsList(questionId), dataProcessor.JsonSettings);
+
+        #region RESTfull convention methods
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id) => Content("Not implemented (yet)!");
+
+        [HttpPut]
+        public IActionResult Put (AnswerViewModel m) => throw new NotImplementedException();
+
+        [HttpPost]
+        public IActionResult Post(AnswerViewModel m) => throw new NotImplementedException();
+
+        [HttpDelete]
+        public IActionResult Delete(int id) => throw new NotImplementedException();
+
+        #endregion
     }
 }

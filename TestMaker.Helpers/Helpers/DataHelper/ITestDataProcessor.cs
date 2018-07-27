@@ -10,10 +10,14 @@ namespace TestMaker.Helpers.Helpers.DataHelper
     {
         JsonSerializerSettings JsonSettings { get; set; }
 
-        List<QuizViewModel> GetQuizViewModelsList(int num);
+        IReadOnlyList<QuizViewModel> GetQuizViewModelsList(int num);
 
-        List<QuestionViewModel> GetQuestionViewModelsList(int quizId);
+        QuizViewModel GetQuizById(int id);
 
-        List<AnswerViewModel> GetAnswerViewModelsList(int questionId);
+        IReadOnlyList<QuestionViewModel> GetQuestionViewModelsList(int quizId);
+
+        IReadOnlyList<AnswerViewModel> GetAnswerViewModelsList(int questionId);
+
+        IReadOnlyList<ResultViewModel> GetResultViewModelsList(int quizId);
     }
 }

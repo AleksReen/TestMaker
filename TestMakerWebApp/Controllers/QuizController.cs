@@ -19,6 +19,21 @@ namespace TestMakerWebApp.Controllers
             dataProcessor = testDataProcessor;
         }
 
+        #region Restful convention methods
+        //Retrives the Quiz with the given {id}
+        [HttpGet("{id}")]
+        public IActionResult Get(int id) => new JsonResult(dataProcessor.GetQuizById(id), dataProcessor.JsonSettings);
+
+        [HttpPut]
+        public IActionResult Put(QuestionViewModel m) => throw new NotImplementedException();
+
+        [HttpPost]
+        public IActionResult Post(QuestionViewModel m) => throw new NotImplementedException();
+
+        [HttpDelete]
+        public IActionResult Delete(int id) => throw new NotImplementedException();
+        #endregion
+
         [HttpGet("Latest/{num}")]
         public IActionResult Latest(int num = 10) => new JsonResult(dataProcessor.GetQuizViewModelsList(num), dataProcessor.JsonSettings);
 

@@ -10,7 +10,7 @@ namespace TestMaker.Helpers.Helpers.DataHelper
     {
         public JsonSerializerSettings JsonSettings { get; set; } = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
-        public List<QuizViewModel> GetQuizViewModelsList(int num)
+        public IReadOnlyList<QuizViewModel> GetQuizViewModelsList(int num)
         {
 
             var sampleQuizzes = new List<QuizViewModel>() {
@@ -38,7 +38,7 @@ namespace TestMaker.Helpers.Helpers.DataHelper
             return sampleQuizzes;
         }
 
-        public List<QuestionViewModel> GetQuestionViewModelsList(int quizId)
+        public IReadOnlyList<QuestionViewModel> GetQuestionViewModelsList(int quizId)
         {
             var sampleQuestions = new List<QuestionViewModel>()
             {
@@ -67,7 +67,7 @@ namespace TestMaker.Helpers.Helpers.DataHelper
             return sampleQuestions;
         }
 
-        public List<AnswerViewModel> GetAnswerViewModelsList(int questionId)
+        public IReadOnlyList<AnswerViewModel> GetAnswerViewModelsList(int questionId)
         {
             var sampleAnswers = new List<AnswerViewModel>()
             {
@@ -96,5 +96,43 @@ namespace TestMaker.Helpers.Helpers.DataHelper
 
             return sampleAnswers;
         }
+
+        public IReadOnlyList<ResultViewModel> GetResultViewModelsList(int quizId)
+        {
+            var sampleResults = new List<ResultViewModel>();
+
+            sampleResults.Add(new ResultViewModel()
+            {
+                Id = 1,
+                QuizId = quizId,
+                Text = "What do you value most in your life?",
+                CreateDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now
+            });
+
+            for (int i = 2; i <= 5; i++)
+            {
+                sampleResults.Add(new ResultViewModel()
+                {
+                    Id = i,
+                    QuizId = quizId,
+                    Text = $"Sample question № {i}",
+                    CreateDate = DateTime.Now,
+                    LastModifiedDate = DateTime.Now
+                });
+            }
+
+            return sampleResults;
+        }
+
+        public QuizViewModel GetQuizById(int id) => new QuizViewModel() {
+
+            Id = id,
+            Title = $"Sample quiz with id - {id}",
+            Description = "Not a real quiz: it's just a sample!",
+            CreateDate = DateTime.Now,
+            LastModifiedDate = DateTime.Now
+
+        };
     }
 }
