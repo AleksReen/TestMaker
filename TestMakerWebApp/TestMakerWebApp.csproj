@@ -24,8 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\interfaces\quiz.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TestMaker.Helpers\TestMaker.Helpers.csproj" />
     <ProjectReference Include="..\TestMaker.Models\TestMaker.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\interfaces\quiz.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
