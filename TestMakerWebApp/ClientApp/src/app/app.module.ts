@@ -8,23 +8,28 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { QuizListComponent } from './quiz-list/quiz-list.component';
+import { QuizComponent } from './quiz/quiz.component';
+import { DataQuizService } from './services/data-quiz.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    QuizListComponent
+    QuizListComponent,
+    QuizComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' }
+      { path: '', component: HomeComponent, pathMatch: 'full' },  
+      { path: 'quiz/:id', component: QuizComponent },
     ])
   ],
-  providers: [],
+  providers: [DataQuizService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
