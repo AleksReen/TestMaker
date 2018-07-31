@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TestMaker.Data\TestMaker.Data.csproj" />
     <ProjectReference Include="..\TestMaker.Helpers\TestMaker.Helpers.csproj" />
     <ProjectReference Include="..\TestMaker.Models\TestMaker.Models.csproj" />
   </ItemGroup>

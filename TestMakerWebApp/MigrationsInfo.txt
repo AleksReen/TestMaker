@@ -1,0 +1,20 @@
+﻿
+1. Add to Startup.cs in Configuration method
+
+	 services.AddEntityFrameworkSqlServer();
+				services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 
+					m => m.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name)));
+
+2. ConnectionStrings in appsettings.json
+
+	"ConnectionStrings": {
+		"TestMakerConnection": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TestMaker;Integrated Security=True; MultipleActiveResultSets=True"
+	  }
+
+3. PowerShell in TestMaker.Data use command
+
+	 dotnet ef --startup-project ../TestMakerWebApp/ migrations add "Initial"
+
+4. PowerShell in TestMakerWebApp use command
+
+	dotnet ef database update

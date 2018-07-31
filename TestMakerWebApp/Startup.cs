@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using TestMaker.Data.Context;
 using TestMaker.Helpers.Helpers.DataHelper;
 
 namespace TestMakerWebApp
@@ -24,6 +27,10 @@ namespace TestMakerWebApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<ITestDataProcessor, TestDataProcessor>();
+
+            services.AddEntityFrameworkSqlServer();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 
+                m => m.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name)));
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
