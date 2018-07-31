@@ -16,7 +16,6 @@ namespace TestMaker.Data.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ApplicationUser>().ToTable("Users");
-            modelBuilder.Entity<ApplicationUser>().Property(i => i.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<ApplicationUser>().HasMany(u => u.Quizzes).WithOne(i => i.User);
 
             modelBuilder.Entity<Quiz>().ToTable("Quizzes");

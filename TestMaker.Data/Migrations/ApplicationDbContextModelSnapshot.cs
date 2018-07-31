@@ -25,7 +25,7 @@ namespace TestMaker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<int>("Flags");
 
@@ -40,6 +40,8 @@ namespace TestMaker.Data.Migrations
 
                     b.Property<int>("Type");
 
+                    b.Property<int>("Value");
+
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
@@ -49,11 +51,10 @@ namespace TestMaker.Data.Migrations
 
             modelBuilder.Entity("TestMaker.Models.Data.ApplicationUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("DisplayName");
 
@@ -83,7 +84,7 @@ namespace TestMaker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<int>("Flags");
 
@@ -111,7 +112,7 @@ namespace TestMaker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("Description");
 
@@ -128,7 +129,8 @@ namespace TestMaker.Data.Migrations
 
                     b.Property<int>("Type");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.Property<int>("ViewCount");
 
@@ -145,7 +147,7 @@ namespace TestMaker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<int>("Flags");
 

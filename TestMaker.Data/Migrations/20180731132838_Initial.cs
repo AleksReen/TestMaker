@@ -12,15 +12,14 @@ namespace TestMaker.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 128, nullable: false),
                     Email = table.Column<string>(nullable: false),
                     DisplayName = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Flags = table.Column<int>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -40,9 +39,9 @@ namespace TestMaker.Data.Migrations
                     Notes = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Flags = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     ViewCount = table.Column<int>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -67,7 +66,7 @@ namespace TestMaker.Data.Migrations
                     Notes = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Flags = table.Column<int>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -94,7 +93,7 @@ namespace TestMaker.Data.Migrations
                     Notes = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Flags = table.Column<int>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -116,10 +115,11 @@ namespace TestMaker.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     QuestionId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: false),
+                    Value = table.Column<int>(nullable: false),
                     Notes = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     Flags = table.Column<int>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

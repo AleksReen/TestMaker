@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TestMaker.Data.Context;
+using TestMaker.Data.SampleData;
 using TestMaker.Helpers.Helpers.DataHelper;
 
 namespace TestMakerWebApp
@@ -55,6 +56,13 @@ namespace TestMakerWebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+                DbSeeder.Seed(dbContext);
+            }
 
             app.UseMvc(routes =>
             {

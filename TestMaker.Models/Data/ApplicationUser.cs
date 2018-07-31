@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace TestMaker.Models.Data
@@ -9,7 +10,7 @@ namespace TestMaker.Models.Data
     {
         [Key]
         [Required]
-        public int  Id { get; set; }
+        public string  Id { get; set; }
 
         [Required]
         [MaxLength(128)]
@@ -29,7 +30,7 @@ namespace TestMaker.Models.Data
         public int Flags { get; set; }
 
         [Required]
-        public DateTime CreateDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         public DateTime LastModifiedDate { get; set; }

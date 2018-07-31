@@ -19,6 +19,9 @@ namespace TestMaker.Models.Data
         [Required]
         public string Text { get; set; }
 
+        [Required]
+        public int Value { get; set; }
+
         public string Notes { get; set; }
 
         [DefaultValue(0)]
@@ -28,7 +31,7 @@ namespace TestMaker.Models.Data
         public int Flags { get; set; }
 
         [Required]
-        public DateTime CreateDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         public DateTime LastModifiedDate { get; set; }
