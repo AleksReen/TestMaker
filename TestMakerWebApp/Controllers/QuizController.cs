@@ -34,7 +34,7 @@ namespace TestMakerWebApp.Controllers
         public IActionResult Delete(int id) => throw new NotImplementedException();
         #endregion
 
-        [HttpGet("Latest/{num}")]
+        [HttpGet("Latest/{num:int?}")]
         public IActionResult Latest(int num = 10) => new JsonResult(dataProcessor.GetQuizViewModelsList(num), dataProcessor.JsonSettings);
 
         [HttpGet("ByTitle/{num:int?}")]
