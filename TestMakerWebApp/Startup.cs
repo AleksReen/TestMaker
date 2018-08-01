@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TestMaker.Helpers.Helpers.DataHelper;
+using System.Reflection;
+using TestMaker.Data.Context;
+using TestMaker.Data.Proccesor;
+using TestMaker.Data.Processor.Providers;
+using TestMaker.Data.SampleData;
 
 namespace TestMakerWebApp
 {
@@ -22,8 +27,12 @@ namespace TestMakerWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+           
+            services.AddTransient<IDataProcessor, DataProcessor>();
 
-            services.AddTransient<ITestDataProcessor, TestDataProcessor>();
+            services.AddEntityFrameworkSqlServer();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 
+                m => m.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name)));
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -48,6 +57,13 @@ namespace TestMakerWebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+                DbSeeder.Seed(dbContext);
+            }
 
             app.UseMvc(routes =>
             {

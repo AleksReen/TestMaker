@@ -29,7 +29,7 @@ namespace TestMaker.Models.ViewModels
         public int Value { get; set; }
         
         [JsonIgnore]
-        public DateTime CreateDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public DateTime LastModifiedDate { get; set; }
     }
