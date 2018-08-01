@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TestMaker.Helpers.Helpers.DataHelper;
+using Newtonsoft.Json;
+using TestMaker.Data.Context;
+using TestMaker.Data.Proccesor;
+using TestMaker.Data.Processor.Providers;
 using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
@@ -11,15 +14,18 @@ namespace TestMakerWebApp.Controllers
     [Route("api/[controller]")]
     public class AnswerController : Controller
     {
-        private ITestDataProcessor dataProcessor;
+        private IAnswerProvider dataProcessor;
+        private ApplicationDbContext context;
+        private JsonSerializerSettings JsonSettings { get; set; } = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
-        public AnswerController(ITestDataProcessor testDataProcessor)
+        public AnswerController(ApplicationDbContext dbContext, IDataProcessor DataProcessor)
         {
-            dataProcessor = testDataProcessor;
+            dataProcessor = DataProcessor;
+            context = dbContext;
         }
 
         [HttpGet("All/{questionId}")]
-        public IActionResult All(int questionId) => new JsonResult(dataProcessor.GetAnswerViewModelsList(questionId), dataProcessor.JsonSettings);
+        public IActionResult All(int questionId) => new JsonResult(dataProcessor.GetAnswerViewModelsList(context, questionId), JsonSettings);
 
         #region RESTfull convention methods
 

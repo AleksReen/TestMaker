@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TestMaker.Data.Context;
+using TestMaker.Data.Proccesor;
+using TestMaker.Data.Processor.Providers;
 using TestMaker.Data.SampleData;
-using TestMaker.Helpers.Helpers.DataHelper;
 
 namespace TestMakerWebApp
 {
@@ -26,8 +27,8 @@ namespace TestMakerWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddTransient<ITestDataProcessor, TestDataProcessor>();
+           
+            services.AddTransient<IDataProcessor, DataProcessor>();
 
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 

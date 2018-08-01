@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
   </ItemGroup>
@@ -29,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestMaker.Data\TestMaker.Data.csproj" />
-    <ProjectReference Include="..\TestMaker.Helpers\TestMaker.Helpers.csproj" />
     <ProjectReference Include="..\TestMaker.Models\TestMaker.Models.csproj" />
   </ItemGroup>
 
