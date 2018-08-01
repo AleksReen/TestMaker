@@ -16,10 +16,10 @@ namespace TestMaker.Data.Processor.Providers
 
         IReadOnlyList<QuizViewModel> GetQuizRandom(ApplicationDbContext context, int num);
 
-        void PutQuiz (QuizViewModel q);
+        QuizViewModel PutQuiz (ApplicationDbContext context, QuizViewModel model);
 
-        void PostQuiz(QuizViewModel q);
+        QuizViewModel PostQuiz(ApplicationDbContext context, QuizViewModel model);
 
-        void DeleteQuiz (int id);
+        ResultOperation DeleteQuiz (ApplicationDbContext context, int model);
     }
 }
