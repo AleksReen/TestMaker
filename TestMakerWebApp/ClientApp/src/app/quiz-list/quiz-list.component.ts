@@ -64,49 +64,4 @@ export class QuizListComponent implements OnInit {
     this.router.navigate(["quiz", this.selectedQuiz.Id]);
   }
 
-  //constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string, private dataQuiz: DataQuizService) {
-  //  this.baseUrl = baseUrl + "api/quiz/";
-  //}
-
-  //ngOnInit(): void {
-  //  this.getFunctionality();
-  //}
-
-  //getFunctionality() {
-    
-  //  switch (this.class) {
-  //    case "latest":
-  //    default:
-  //      this.getLatest();
-  //      break;
-  //    case "byTitle":
-  //      this.getByTitle();
-  //      break;
-  //    case "random":
-  //      this.getRandom();
-  //      break;
-
-  //  }
-  //}
-
-  //getRandom(): any {
-  //  this.title = "Random Quiz";
-  //  this.getQuizzesList(this.baseUrl + "Random/");
-  //}
-
-  //getByTitle(): any {
-  //  this.title = "ByTitle Quiz";
-  //  this.getQuizzesList(this.baseUrl + "ByTitle/");
-  //}
-
-  //getLatest() {
-  //  this.title = "Latest Quiz"; 
-  //  this.getQuizzesList(this.baseUrl + "Latest/");
-  //}
-
-  //getQuizzesList(url: string) {
-  //  this.httpClient.get<Quiz[]>(url).subscribe(result => {
-  //    this.quizzes = result;
-  //  }, error => console.error(error));
-  //}
 }

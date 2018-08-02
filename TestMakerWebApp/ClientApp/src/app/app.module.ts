@@ -13,6 +13,7 @@ import { DataQuizService } from './services/data-quiz.service';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
+import { QuizEditComponent } from './quiz-edit/quiz-edit.component';
 
 
 @NgModule({
@@ -24,14 +25,17 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
     QuizComponent,
     AboutComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    QuizEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },  
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'quiz/create', component: QuizEditComponent },
+      { path: 'quiz/edit/:id', component: QuizEditComponent },
       { path: 'quiz/:id', component: QuizComponent },
       { path: 'about', component: AboutComponent },
       { path: 'login', component: LoginComponent },

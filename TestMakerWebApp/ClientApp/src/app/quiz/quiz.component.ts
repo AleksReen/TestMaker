@@ -33,4 +33,8 @@ export class QuizComponent implements OnInit {
       this.router.navigate(["home"]);
     }
   }
+
+  onEdit() {
+    this.router.navigate(["quiz/edit", this.quiz.Id]);
+  }
 }

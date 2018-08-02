@@ -26,7 +26,6 @@ namespace TestMaker.Data.Proccesor
                 .Adapt<QuizViewModel>();
         }
 
-
         public QuizViewModel PutQuiz(ApplicationDbContext context, QuizViewModel model)
         {
             var quiz = new Quiz();
