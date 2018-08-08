@@ -37,4 +37,10 @@ export class QuizComponent implements OnInit {
   onEdit() {
     this.router.navigate(["quiz/edit", this.quiz.Id]);
   }
+
+  onDelete() {
+    if (confirm("Do you want to delete this quiz?")) {
+      this.dataQuiz.deleteQuiz(this.quiz.Id);
+    }
+  }
 }

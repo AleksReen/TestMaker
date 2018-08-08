@@ -57,7 +57,7 @@ namespace TestMakerWebApp.Controllers
             return new JsonResult(quiz, JsonSettings);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
             var result = dataProcessor.DeleteQuiz(context, id);

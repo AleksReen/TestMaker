@@ -32,7 +32,7 @@ export class DataQuizService {
     return this.httpClient.get<Quiz>(this.baseUrl + id);
   }
 
-  private getQuizzesList(url: string): any {
+  getQuizzesList(url: string): any {
     return this.httpClient.get<Quiz[]>(url);
   }
 
@@ -42,6 +42,13 @@ export class DataQuizService {
       console.log("Quiz " + q.Id + " has been updated.");
       this.router.navigate(["home"]);
     }, error => console.error(error));
+  }
+
+  deleteQuiz(id: number) {
+    this.httpClient.delete<Quiz>(this.baseUrl + id).subscribe(res => {
+      console.log("Quiz " + id + " has been deleted");
+      this.router.navigate(["home"]);
+    }, error => console.error(error))
   }
 
   putQuiz(quiz: Quiz) {
