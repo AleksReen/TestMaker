@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TestMaker.Data.Context;
+using TestMaker.Data.Processor.Providers;
 using TestMaker.Models.Data;
 using TestMaker.Models.ViewModels;
 
@@ -100,7 +101,10 @@ namespace TestMaker.Data.Proccesor
 
         public IReadOnlyList<AnswerViewModel> GetAnswerViewModelsList(ApplicationDbContext context, int questionId)
         {
-            throw new NotImplementedException();
+            return context.Answers
+                .Where(i => i.QuestionId == questionId)
+                .ToArray()
+                .Adapt<IReadOnlyList<AnswerViewModel>>();
         }
 
         public AnswerViewModel GetAnswer(ApplicationDbContext context, int id)
@@ -225,8 +229,64 @@ namespace TestMaker.Data.Proccesor
         #region Result
         public IReadOnlyList<ResultViewModel> GetResultViewModelsList(ApplicationDbContext context, int quizId)
         {
-            throw new NotImplementedException();
+            return context.Results
+                .Where(i => i.Id == quizId)
+                .ToArray()
+                .Adapt<IReadOnlyList<ResultViewModel>>();
         }
+
+        public ResultViewModel GetResult(ApplicationDbContext context, int id)
+        {
+            return context.Results.Where(i => i.Id == id)
+                .FirstOrDefault()
+                .Adapt<ResultViewModel>();
+        }
+
+        public ResultViewModel PutResult(ApplicationDbContext context, ResultViewModel model)
+        {
+            var result = context.Results.Where(i => i.Id == model.Id).FirstOrDefault();
+
+            if (result == null) return null;
+
+            result.QuizId = model.QuizId;
+            result.Text = model.Text;
+            result.MinValue = model.MinValue;
+            result.MaxValue = model.MaxValue;
+            result.Notes = model.Notes;
+
+            result.LastModifiedDate = result.CreatedDate;
+
+            context.SaveChanges();
+
+            return result.Adapt<ResultViewModel>();
+        }
+
+        public ResultViewModel PostResult(ApplicationDbContext context, ResultViewModel model)
+        {
+            var result = model.Adapt<Result>();
+
+            result.CreatedDate = DateTime.Now;
+            result.LastModifiedDate = result.CreatedDate;
+
+            context.Results.Add(result);
+            context.SaveChanges();
+
+            return result.Adapt<ResultViewModel>();
+        }
+
+        public ResultOperation DeleteResult(ApplicationDbContext context, int id)
+        {
+            var result = context.Results.Where(i => i.Id == id).FirstOrDefault();
+
+            if (result == null) return ResultOperation.NotFound;
+
+            context.Results.Remove(result);
+
+            context.SaveChanges();
+
+            return ResultOperation.Ok;
+        }
+
         #endregion
 
     }
