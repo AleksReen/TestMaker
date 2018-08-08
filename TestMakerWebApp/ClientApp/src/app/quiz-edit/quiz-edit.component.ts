@@ -46,10 +46,11 @@ export class QuizEditComponent implements OnInit {
   onSubmit(quiz: Quiz) {
 
     if (this.editMode) {
-      this.dataQuiz.postQuiz(quiz);
+      this.dataQuiz.putQuiz(quiz);
     }
     else {
-      this.dataQuiz.putQuiz(quiz);
+      console.log("1");
+      this.dataQuiz.postQuiz(quiz);
     }
 
   }

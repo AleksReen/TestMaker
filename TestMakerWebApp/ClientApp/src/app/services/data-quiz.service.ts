@@ -37,7 +37,16 @@ export class DataQuizService {
   }
 
   postQuiz(quiz: Quiz) {
+    console.log(quiz);
     this.httpClient.post<Quiz>(this.baseUrl, quiz).subscribe(res => {
+      let q = res;
+      console.log("Quiz " + q.Id + " has been created.");
+      this.router.navigate(["home"]);
+    }, error => console.error(error));
+  }
+
+  putQuiz(quiz: Quiz) {
+    this.httpClient.put<Quiz>(this.baseUrl, quiz).subscribe(res => {
       let q = res;
       console.log("Quiz " + q.Id + " has been updated.");
       this.router.navigate(["home"]);
@@ -50,13 +59,4 @@ export class DataQuizService {
       this.router.navigate(["home"]);
     }, error => console.error(error))
   }
-
-  putQuiz(quiz: Quiz) {
-    this.httpClient.put<Quiz>(this.baseUrl, quiz).subscribe(res => {
-      let q = res;
-      console.log("Quiz " + q.Id + " has been created.");
-      this.router.navigate(["home"]);
-    }, error => console.error(error));
-  }
-
 }

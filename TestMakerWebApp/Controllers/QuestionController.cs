@@ -43,19 +43,21 @@ namespace TestMakerWebApp.Controllers
         {
             if (model == null) return new StatusCodeResult(500);
 
-            return new JsonResult(dataProcessor.PutQuestion(context, model), JsonSettings);
-        }
-
-        [HttpPost]
-        public IActionResult Post(QuestionViewModel model)
-        {
-            if (model == null) return new StatusCodeResult(500);
-
-            var question = dataProcessor.PostQuestion(context, model);
+            var question = dataProcessor.PutQuestion(context, model);
 
             if (question == null) return NotFound(new { Error = $"Question ID = {model.Id} has not been found" });
 
             return new JsonResult(question, JsonSettings);
+
+            
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] QuestionViewModel model)
+        {
+            if (model == null) return new StatusCodeResult(500);
+
+            return new JsonResult(dataProcessor.PostQuestion(context, model), JsonSettings);
         }
 
         [HttpDelete("{id}")]

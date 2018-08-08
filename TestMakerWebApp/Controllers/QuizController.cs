@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using TestMaker.Data;
 using TestMaker.Data.Context;
-using TestMaker.Data.Proccesor;
 using TestMaker.Data.Processor.Providers;
 using TestMaker.Models.ViewModels;
 
@@ -37,7 +36,12 @@ namespace TestMakerWebApp.Controllers
 
             if (model == null) return new StatusCodeResult(500);
 
-            return new JsonResult(dataProcessor.PutQuiz(context, model), JsonSettings);
+            var quiz = dataProcessor.PutQuiz(context, model);
+
+            if (quiz == null) return NotFound(new { Error = $"Quiz ID = {model.Id} has not been found" });
+
+            return new JsonResult(quiz, JsonSettings);
+           
         }
 
         [HttpPost]
@@ -45,11 +49,8 @@ namespace TestMakerWebApp.Controllers
 
             if (model == null) return new StatusCodeResult(500);
 
-            var quiz = dataProcessor.PostQuiz(context, model);
+            return new JsonResult(dataProcessor.PostQuiz(context, model), JsonSettings);
 
-            if (quiz == null) return NotFound (new { Error = $"Quiz ID = {model.Id} has not been found"});
-           
-            return new JsonResult(quiz, JsonSettings);
         }
 
         [HttpDelete("{id}")]
