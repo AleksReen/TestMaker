@@ -8,28 +8,25 @@ using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
 {
-    [Route("api/[controller]")]
-    public class AnswerController : Controller
+    public class AnswerController : BaseApiController
     {
         private IAnswerProvider dataProcessor;
-        private ApplicationDbContext context;
-        private JsonSerializerSettings JsonSettings { get; set; } = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
         public AnswerController(ApplicationDbContext dbContext, IDataProcessor DataProcessor)
+            :base(dbContext)
         {
             dataProcessor = DataProcessor;
-            context = dbContext;
         }
 
         [HttpGet("All/{questionId}")]
-        public IActionResult All(int questionId) => new JsonResult(dataProcessor.GetAnswerViewModelsList(context, questionId), JsonSettings);
+        public IActionResult All(int questionId) => new JsonResult(dataProcessor.GetAnswerViewModelsList(DbContext, questionId), JsonSettings);
 
         #region RESTfull convention methods
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var answer = dataProcessor.GetAnswer(context, id);
+            var answer = dataProcessor.GetAnswer(DbContext, id);
 
             if (answer == null) return NotFound(new { Error = $"Answer ID = {id} has not been found" });
 
@@ -41,7 +38,7 @@ namespace TestMakerWebApp.Controllers
         {
             if (model == null) return new StatusCodeResult(500);
 
-            var answer = dataProcessor.PutAnswer(context, model);
+            var answer = dataProcessor.PutAnswer(DbContext, model);
 
             if (answer == null) return NotFound(new { Error = $"Answer ID = {model.Id} has not been found" });
 
@@ -53,13 +50,13 @@ namespace TestMakerWebApp.Controllers
         {
             if (model == null) return new StatusCodeResult(500);
 
-            return new JsonResult(dataProcessor.PostAnswer(context, model), JsonSettings);
+            return new JsonResult(dataProcessor.PostAnswer(DbContext, model), JsonSettings);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var result = dataProcessor.DeleteAnswer(context, id);
+            var result = dataProcessor.DeleteAnswer(DbContext, id);
 
             if (result == ResultOperation.NotFound)
             {
