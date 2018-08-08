@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TestMaker.Data;
 using TestMaker.Data.Context;
 using TestMaker.Data.Proccesor;
 using TestMaker.Data.Processor.Providers;
-using TestMaker.Models.Data;
 using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
@@ -20,7 +15,7 @@ namespace TestMakerWebApp.Controllers
         private ApplicationDbContext context;
         private JsonSerializerSettings JsonSettings { get; set; } = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
-        public QuizController(ApplicationDbContext dbContext, IDataProcessor DataProcessor)
+        public QuizController(ApplicationDbContext dbContext, IQuizProvider DataProcessor)
         {
             dataProcessor = DataProcessor;
             context = dbContext;
@@ -62,7 +57,7 @@ namespace TestMakerWebApp.Controllers
 
             var result = dataProcessor.DeleteQuiz(context, id);
 
-            if (result == ResultOperation.CancelOperation)
+            if (result == ResultOperation.NotFound)
             {
                 return NotFound(new
                 {

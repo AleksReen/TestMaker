@@ -1,11 +1,8 @@
 ﻿using Mapster;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TestMaker.Data.Context;
-using TestMaker.Data.Processor.Providers;
 using TestMaker.Models.Data;
 using TestMaker.Models.ViewModels;
 
@@ -69,7 +66,7 @@ namespace TestMaker.Data.Proccesor
 
             if (quiz == null)
             {
-                return ResultOperation.CancelOperation;
+                return ResultOperation.NotFound;
             }
 
             context.Quizzes.Remove(quiz);
@@ -106,12 +103,71 @@ namespace TestMaker.Data.Proccesor
             throw new NotImplementedException();
         }
 
+        public AnswerViewModel GetAnswer(ApplicationDbContext context, int id)
+        {
+            return context.Answers.Where(i => i.Id == id).FirstOrDefault().Adapt<AnswerViewModel>();
+        }
+
         #endregion
 
         #region Question
         public IReadOnlyList<QuestionViewModel> GetQuestionViewModelsList(ApplicationDbContext context, int quizId)
         {
-            throw new NotImplementedException();
+            return context.Questions.Where(i => i.QuizId == quizId).ToArray().Adapt<IReadOnlyList<QuestionViewModel>>();
+        }
+
+        public QuestionViewModel GetQuestion(ApplicationDbContext context, int quizId)
+        {
+            return context.Questions.Where(i => i.Id == quizId)
+                .FirstOrDefault()
+                .Adapt<QuestionViewModel>();
+        }
+
+        public QuestionViewModel PutQuestion(ApplicationDbContext context, QuestionViewModel model)
+        {
+            var question = model.Adapt<Question>();
+
+            question.QuizId = model.QuizId;
+            question.Text = model.Text;
+            question.Notes = model.Notes;
+
+            question.CreatedDate = DateTime.Now;
+            question.LastModifiedDate = model.CreatedDate;
+
+            context.Questions.Add(question);
+            context.SaveChanges();
+
+            return question.Adapt<QuestionViewModel>();
+        }
+
+        public QuestionViewModel PostQuestion(ApplicationDbContext context, QuestionViewModel model)
+        {
+            var question = context.Questions.Where(i => i.Id == model.Id).FirstOrDefault();
+
+            if (question == null) return null;
+
+            question.QuizId = model.QuizId;
+            question.Text = model.Text;
+            question.Notes = model.Notes;
+
+            question.LastModifiedDate = question.CreatedDate;
+
+            context.SaveChanges();
+
+            return question.Adapt<QuestionViewModel>();
+        }
+
+        public ResultOperation DeleteQuestion(ApplicationDbContext context, int id)
+        {
+            var question = context.Questions.Where(i => i.Id == id).FirstOrDefault();
+
+            if (question == null) return ResultOperation.NotFound;
+
+            context.Questions.Remove(question);
+
+            context.SaveChanges();
+
+            return ResultOperation.Ok;
         }
         #endregion
 

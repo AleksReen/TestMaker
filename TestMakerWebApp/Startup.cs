@@ -29,6 +29,9 @@ namespace TestMakerWebApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
            
             services.AddTransient<IDataProcessor, DataProcessor>();
+            services.AddTransient<IQuizProvider, DataProcessor>();
+            services.AddTransient<IQuestionProvider, DataProcessor>();
+            services.AddTransient<IAnswerProvider, DataProcessor>();
 
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 

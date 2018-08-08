@@ -20,6 +20,6 @@ namespace TestMaker.Data.Processor.Providers
 
         QuizViewModel PostQuiz(ApplicationDbContext context, QuizViewModel model);
 
-        ResultOperation DeleteQuiz (ApplicationDbContext context, int model);
+        ResultOperation DeleteQuiz (ApplicationDbContext context, int id);
     }
 }

@@ -30,7 +30,14 @@ namespace TestMakerWebApp.Controllers
         #region RESTfull convention methods
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id) => Content("Not implemented (yet)!");
+        public IActionResult Get(int id)
+        {
+            var answer = dataProcessor.GetAnswer(context, id);
+
+            if (answer == null) return NotFound(new { Error = $"Answer ID = {id} has not been found" });
+
+            return new JsonResult(answer, JsonSettings);            
+        } 
 
         [HttpPut]
         public IActionResult Put (AnswerViewModel m) => throw new NotImplementedException();
