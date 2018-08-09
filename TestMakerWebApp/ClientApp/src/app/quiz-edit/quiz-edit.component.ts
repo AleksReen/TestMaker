@@ -15,13 +15,8 @@ export class QuizEditComponent implements OnInit {
   quiz: Quiz;
   editMode: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private dataQuiz: DataQuizService) {
-
-    this.quiz = <Quiz>{};
-    
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private dataQuiz: DataQuizService) {
+    this.quiz = <Quiz>{};  
   }
 
   ngOnInit(): void {
@@ -48,8 +43,7 @@ export class QuizEditComponent implements OnInit {
     if (this.editMode) {
       this.dataQuiz.putQuiz(quiz);
     }
-    else {
-      console.log("1");
+    else {    
       this.dataQuiz.postQuiz(quiz);
     }
 
@@ -58,5 +52,4 @@ export class QuizEditComponent implements OnInit {
   onBack() {
     this.router.navigate(["home"]);
   }
-
 }

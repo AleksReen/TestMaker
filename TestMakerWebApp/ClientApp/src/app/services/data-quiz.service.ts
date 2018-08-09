@@ -6,13 +6,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class DataQuizService {
 
-  title: string;
-  quizzes: Quiz[] = [];
-
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router,
-    @Inject('BASE_URL') private baseUrl: string) {
+  constructor( private httpClient: HttpClient, private router: Router, @Inject('BASE_URL') private baseUrl: string) {
     this.baseUrl = baseUrl + "api/quiz/";
   }
 
@@ -36,8 +30,7 @@ export class DataQuizService {
     return this.httpClient.get<Quiz[]>(url);
   }
 
-  postQuiz(quiz: Quiz) {
-    console.log(quiz);
+  postQuiz(quiz: Quiz) {   
     this.httpClient.post<Quiz>(this.baseUrl, quiz).subscribe(res => {
       let q = res;
       console.log("Quiz " + q.Id + " has been created.");
