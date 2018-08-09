@@ -3,7 +3,7 @@
   <div>
     <label for="text">Question text:</label>
     <br />
-    <textarea id="text" [(ngModel)] ="question.Text" placeholder="enter a suitable text..."></textarea>
+    <textarea id="text" [(ngModel)]="question.Text" placeholder="enter a suitable text..."></textarea>
   </div>
   <div>
     <input *ngIf="editMode" type="button" value="Apply Changes" (click)="onSubmit(question)" />
@@ -11,6 +11,6 @@
     <input type="button" value="Cancel" (click)="onBack()" />
   </div>
 
-  <<answer-list *ngIf="editMode" [question] ="question" ></answer-list>-->
+  <answer-list *ngIf="editMode" [question] ="question" ></answer-list>
 
 </div>

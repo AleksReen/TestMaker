@@ -11,11 +11,11 @@ import { DataQuestionService } from '../services/data-question.service';
 export class QuestionListComponent implements OnChanges {
 
   @Input() quiz: Quiz;
-  question: Question[];
+  questions: Question[];
   title: string;
 
   constructor(private router: Router, private dataQuestionService: DataQuestionService) {
-    this.question = [];
+    this.questions = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -29,7 +29,7 @@ export class QuestionListComponent implements OnChanges {
 
   loadData(): void {
     this.dataQuestionService.loadData(this.quiz.Id).subscribe(res => {
-      this.question = res;
+      this.questions = res;
     }, error => console.error(error));
   }
 
@@ -43,7 +43,7 @@ export class QuestionListComponent implements OnChanges {
 
   onDelete(question: Question): void {
     if (confirm("Do you really want to delete this question?")) {
-
+      this.dataQuestionService.deleteQuestion(question.Id);
     }
   }
 }

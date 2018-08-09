@@ -1,11 +1,11 @@
 <h3>Questions</h3>
 
-<div *ngIf="question.length > 0">
-  <table class="question">
+<div *ngIf="questions.length > 0">
+  <table class="questions">
     <thead>
       <tr>
-        <td>Text</td>
-        <td>Question</td>
+        <th>Text</th>
+        <th>Options</th>
       </tr>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@
   </table>
 </div>
 
-<div *ngIf="question.length == 0">
+<div *ngIf="questions.length == 0">
   This quiz has no question (yet) : click the <strong>Add a new Question</strong> button to add the first one!
 </div>
 
