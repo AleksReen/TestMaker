@@ -40,5 +40,4 @@ export class DataQuestionService {
       this.router.navigate(["quiz/edit", v.QuizId]);
     }, er => console.error(er));
   }
-
 }

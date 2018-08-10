@@ -228,9 +228,9 @@ namespace TestMaker.Data.Proccesor
 
         #region Result
         public IReadOnlyList<ResultViewModel> GetResultViewModelsList(ApplicationDbContext context, int quizId)
-        {
+        {          
             return context.Results
-                .Where(i => i.Id == quizId)
+                .Where(i => i.QuizId == quizId)
                 .ToArray()
                 .Adapt<IReadOnlyList<ResultViewModel>>();
         }

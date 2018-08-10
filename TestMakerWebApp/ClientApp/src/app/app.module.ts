@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { DataQuizService } from './services/data-quiz.service';
 import { DataQuestionService } from './services/data-question.service';
 import { DataAnswerService } from './services/data-answer.service';
+import { DataResultService } from './services/data-result.service';
 
 //Components
 import { AppComponent } from './app.component';
@@ -23,7 +24,8 @@ import { QuestionListComponent } from './question-list/question-list.component';
 import { QuestionEditComponent } from './question-edit/question-edit.component';
 import { AnswerEditComponent } from './answer-edit/answer-edit.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
-
+import { ResultListComponent } from './result-list/result-list.component';
+import { ResultEditComponent } from './result-edit/result-edit.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { AnswerListComponent } from './answer-list/answer-list.component';
     QuestionListComponent,
     QuestionEditComponent,
     AnswerEditComponent,
-    AnswerListComponent
+    AnswerListComponent,
+    ResultListComponent,
+    ResultEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,12 +59,14 @@ import { AnswerListComponent } from './answer-list/answer-list.component';
       { path: 'question/edit/:id', component: QuestionEditComponent },
       { path: 'answer/create/:id', component: AnswerEditComponent },
       { path: 'answer/edit/:id', component: AnswerEditComponent },
+      { path: 'result/create/:id', component: ResultEditComponent },
+      { path: 'result/edit/:id', component: ResultEditComponent },
       { path: 'about', component: AboutComponent },
       { path: 'login', component: LoginComponent },
       { path: '**', component: PageNotFoundComponent }
     ])
   ],
-  providers: [DataQuizService, DataQuestionService, DataAnswerService],
+  providers: [DataQuizService, DataQuestionService, DataAnswerService, DataResultService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

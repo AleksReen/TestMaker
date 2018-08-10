@@ -16,10 +16,10 @@ namespace TestMakerWebApp.Controllers
     {
         IResultProvider dataProcessor;       
 
-        public ResultController(ApplicationDbContext dbContext, IResultProvider testDataProcessor)
+        public ResultController(ApplicationDbContext dbContext, IResultProvider DataProcessor)
             :base(dbContext)
         {
-            dataProcessor = testDataProcessor;
+            dataProcessor = DataProcessor;
         }
 
         [HttpGet("All/{quizId}")]
