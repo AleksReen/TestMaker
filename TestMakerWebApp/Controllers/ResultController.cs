@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TestMaker.Data;
 using TestMaker.Data.Context;
 using TestMaker.Data.Proccesor;
 using TestMaker.Data.Processor.Providers;
@@ -11,35 +12,66 @@ using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
 {
-    [Route("api/[controller]")]
-    public class ResultController : Controller
+    public class ResultController : BaseApiController
     {
-        IResultProvider dataProcessor;
-        private ApplicationDbContext context;
-        private JsonSerializerSettings JsonSettings { get; set; } = new JsonSerializerSettings { Formatting = Formatting.Indented };
+        IResultProvider dataProcessor;       
 
-        public ResultController(ApplicationDbContext dbContext, IDataProcessor testDataProcessor)
+        public ResultController(ApplicationDbContext dbContext, IResultProvider DataProcessor)
+            :base(dbContext)
         {
-            dataProcessor = testDataProcessor;
-            context = dbContext;
+            dataProcessor = DataProcessor;
         }
 
         [HttpGet("All/{quizId}")]
-        public IActionResult All(int quizId) => new JsonResult(dataProcessor.GetResultViewModelsList(context, quizId), JsonSettings);
+        public IActionResult All(int quizId) => new JsonResult(dataProcessor.GetResultViewModelsList(DbContext, quizId), JsonSettings);
 
         #region RESTfull convention methods
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id) => Content("Not implemented (yet)!");
+        public IActionResult Get(int id)
+        {
+            var result = dataProcessor.GetResult(DbContext, id);
+
+            if (result == null) return NotFound(new { Error = $"Result ID = {id} has not been found" });
+
+            return new JsonResult(result, JsonSettings);
+        }
 
         [HttpPut]
-        public IActionResult Put(ResultViewModel m) => throw new NotImplementedException();
+        public IActionResult Put([FromBody] ResultViewModel model)
+        {
+            if (model == null) return new StatusCodeResult(500);
+
+            var answer = dataProcessor.PutResult(DbContext, model);
+
+            if (answer == null) return NotFound(new { Error = $"Result ID = {model.Id} has not been found" });
+
+            return new JsonResult(answer, JsonSettings);
+        }
 
         [HttpPost]
-        public IActionResult Post(ResultViewModel m) => throw new NotImplementedException();
+        public IActionResult Post([FromBody] ResultViewModel model)
+        {
+            if (model == null) return new StatusCodeResult(500);
 
-        [HttpDelete]
-        public IActionResult Delete(int id) => throw new NotImplementedException();
+            return new JsonResult(dataProcessor.PostResult(DbContext, model), JsonSettings);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var result = dataProcessor.DeleteResult(DbContext, id);
+
+            if (result == ResultOperation.NotFound)
+            {
+                return NotFound(new
+                {
+                    Error = $"Result ID = {id} has not been found"
+                });
+            }
+
+            return new OkResult();
+        }
 
         #endregion
     }

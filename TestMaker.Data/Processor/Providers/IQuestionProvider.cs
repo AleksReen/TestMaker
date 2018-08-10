@@ -8,6 +8,10 @@ namespace TestMaker.Data.Processor.Providers
 {
     public interface IQuestionProvider
     {
-        IReadOnlyList<QuestionViewModel> GetQuestionViewModelsList(ApplicationDbContext context, int quizId);     
+        IReadOnlyList<QuestionViewModel> GetQuestionViewModelsList(ApplicationDbContext context, int quizId);
+        QuestionViewModel GetQuestion (ApplicationDbContext context, int id);
+        QuestionViewModel PutQuestion(ApplicationDbContext context, QuestionViewModel m);
+        QuestionViewModel PostQuestion(ApplicationDbContext context, QuestionViewModel m);
+        ResultOperation DeleteQuestion(ApplicationDbContext context, int id);
     }
 }
