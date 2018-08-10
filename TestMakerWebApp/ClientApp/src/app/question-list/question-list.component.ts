@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, Inject, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, Inject, SimpleChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataQuestionService } from '../services/data-question.service';
 
@@ -21,14 +21,14 @@ export class QuestionListComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (typeof changes['quiz'] !== "undefined") {     
       var change = changes['quiz'];    
-      if (!change.isFirstChange()) {      
-        this.loadData();
+      if (!change.isFirstChange()) {
+        this.loadData(this.quiz.Id);
       }
     }
-  }
+  }  
 
-  loadData(): void {
-    this.dataQuestionService.loadData(this.quiz.Id).subscribe(res => {
+  loadData(quizId: number): void {
+    this.dataQuestionService.loadData(quizId).subscribe(res => {
       this.questions = res;
     }, error => console.error(error));
   }
@@ -43,7 +43,10 @@ export class QuestionListComponent implements OnChanges {
 
   onDelete(question: Question): void {
     if (confirm("Do you really want to delete this question?")) {
-      this.dataQuestionService.deleteQuestion(question.Id);
+      this.dataQuestionService.deleteQuestion(question.Id).subscribe(res => {
+        console.log("Question " + question.Id + " has been deleted.");
+        this.loadData(this.quiz.Id);
+      }, er => console.error(er));
     }
   }
 }

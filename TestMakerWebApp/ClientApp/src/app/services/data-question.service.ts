@@ -15,11 +15,9 @@ export class DataQuestionService {
     return this.httpClient.get<Question[]>(url);
   }
 
-  deleteQuestion(questionId: number): void {
+  deleteQuestion(questionId: number): any {
     var url = this.baseUrl + questionId;
-    this.httpClient.delete(url).subscribe(res => {
-      console.log("Question " + questionId + " has been deleted.")
-    }, er => console.error(er));
+    return this.httpClient.delete(url);
   }
 
   getQuestion(id: number): Observable<Question> {
