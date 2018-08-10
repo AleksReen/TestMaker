@@ -43,7 +43,10 @@ export class AnswerListComponent implements OnChanges {
 
   onDelete(answer: Answer) {
     if (confirm("Do you really want to delete this answer?")) {
-      this.dataAnswerService.deleteAnswer(answer.Id);
+      this.dataAnswerService.deleteAnswer(answer.Id).subscribe(res => {
+        console.log("Answer " + answer.Id + " has been deleted.");
+        this.loadData();
+      }, er => console.error(er));
     }
   }
 }

@@ -22,13 +22,13 @@ export class QuestionListComponent implements OnChanges {
     if (typeof changes['quiz'] !== "undefined") {     
       var change = changes['quiz'];    
       if (!change.isFirstChange()) {
-        this.loadData(this.quiz.Id);
+        this.loadData();
       }
     }
   }  
 
-  loadData(quizId: number): void {
-    this.dataQuestionService.loadData(quizId).subscribe(res => {
+  loadData(): void {
+    this.dataQuestionService.loadData(this.quiz.Id).subscribe(res => {
       this.questions = res;
     }, error => console.error(error));
   }
@@ -45,7 +45,7 @@ export class QuestionListComponent implements OnChanges {
     if (confirm("Do you really want to delete this question?")) {
       this.dataQuestionService.deleteQuestion(question.Id).subscribe(res => {
         console.log("Question " + question.Id + " has been deleted.");
-        this.loadData(this.quiz.Id);
+        this.loadData();
       }, er => console.error(er));
     }
   }

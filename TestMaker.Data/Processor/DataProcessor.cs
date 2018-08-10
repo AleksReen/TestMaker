@@ -152,11 +152,11 @@ namespace TestMaker.Data.Proccesor
 
         public ResultOperation DeleteAnswer(ApplicationDbContext context, int id)
         {
-            var answer = context.Questions.Where(i => i.Id == id).FirstOrDefault();
+            var answer = context.Answers.Where(i => i.Id == id).FirstOrDefault();
 
             if (answer == null) return ResultOperation.NotFound;
 
-            context.Questions.Remove(answer);
+            context.Answers.Remove(answer);
 
             context.SaveChanges();
 
