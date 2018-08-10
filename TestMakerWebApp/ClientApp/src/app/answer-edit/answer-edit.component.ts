@@ -48,6 +48,6 @@ export class AnswerEditComponent {
   }
 
   onBack() {
-    this.router.navigate(["quiz/edit", this.answer.QuestionId]);
+    this.router.navigate(["question/edit", this.answer.QuestionId]);
   }
 }

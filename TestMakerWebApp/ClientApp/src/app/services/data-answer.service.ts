@@ -11,7 +11,7 @@ export class DataAnswerService {
   }
 
   loadData(questionId: number): Observable<Answer[]> {
-    var url = this.baseUrl + questionId;
+    var url = this.baseUrl + "All/" + questionId;
     return this.httpClient.get<Answer[]>(url);
   }
 
@@ -39,7 +39,7 @@ export class DataAnswerService {
     this.httpClient.put<Answer>(this.baseUrl, answer).subscribe(res => {
       let v = res;
       console.log("Answer " + v.Id + " has been updated.");
-      this.router.navigate(["quiz/edit", v.QuestionId]);
+      this.router.navigate(["question/edit", v.QuestionId]);
     }, er => console.error(er));
   }
 }
