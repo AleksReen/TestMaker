@@ -5,7 +5,7 @@ import { DataAnswerService } from '../services/data-answer.service';
 @Component({
     selector: 'answer-edit',
     templateUrl: './answer-edit.component.html',
-    styleUrls: ['./answer-edit.component.css']
+    styleUrls: ['./answer-edit.component.less']
 })
 
 export class AnswerEditComponent {
