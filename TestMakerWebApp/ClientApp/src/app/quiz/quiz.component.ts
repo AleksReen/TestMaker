@@ -43,4 +43,8 @@ export class QuizComponent implements OnInit {
       this.dataQuiz.deleteQuiz(this.quiz.Id);
     }
   }
+
+  onBack() {
+    this.router.navigate(["/"]);
+  }
 }
