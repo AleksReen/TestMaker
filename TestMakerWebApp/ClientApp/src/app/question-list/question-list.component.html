@@ -1,28 +1,33 @@
 <h3>Questions</h3>
 
 <div *ngIf="questions.length > 0">
-  <table class="questions">
-    <thead>
-      <tr>
-        <th>Text</th>
-        <th>Options</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let question of questions">
-        <td>{{question.Text}}</td>
-        <td>
-          <input type="button" value="Edit" (click)="onEdit(question)" />
-          <input type="button" value="Delete" (click)="onDelete(question)" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="table-responsive">
+    <table class="table table-hover questions">
+      <thead>
+        <tr>
+          <th>Text</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let question of questions">
+          <td>{{question.Text}}</td>
+          <td>
+            <input class="btn btn-sm btn-warning" type="button" value="Edit" (click)="onEdit(question)" />
+            <input class="btn btn-sm btn-danger" type="button" value="Delete" (click)="onDelete(question)" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
 
-<div *ngIf="questions.length == 0">
-  This quiz has no question (yet) : click the <strong>Add a new Question</strong> button to add the first one!
-</div>
+  <div *ngIf="questions.length == 0">
+    This quiz has no question (yet) : click the <strong>Add a new Question</strong> button to add the first one!
+  </div>
+  <button (click)="onCreate()" class="btn btn-sm btn-primary">
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    Add a new Question
+  </button>
 
-<input type="button" value="Add a new Question" (click)="onCreate()" />
 
