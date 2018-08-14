@@ -1,28 +1,59 @@
 <h2>{{title}}</h2>
 <div class="answer-edit">
-  <div class="form-group">
-    <label for="text">Answer text:</label>
-    <br />
-    <textarea class="form-control" id="text" [(ngModel)]="answer.Text" placeholder="enter a suitable text..."></textarea>
-  </div>
 
-  <div class="form-group">
-    <label for="value">Score Value:</label>
-    <br />
-    <select class="form-control" id="value" name="value" [(ngModel)]="answer.Value">
-      <option *ngFor="let num of [-5,4,3,2,1,0,1,2,3,4,5]"
-              [value]="num">{{num}}</option>
-    </select>
-  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <div>
-    <input class="btn btn-sm btn-success" *ngIf="editMode" type="button" value="Apply Changes" (click)="onSubmit(answer)" />
+    <div class="form-group" [ngClass]="{ 'has-error has-feedback': hasError('Text') }">
+      <label for="text">Answer text:</label>
+      <br />
+      <textarea class="form-control"
+                formControlName="Text" required
+                placeholder="enter a suitable text...">
+      </textarea>
+      <span *ngIf="hasError('Text')" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+      <div *ngIf="hasError('Text')" class="help-block">
+        Text is a required field: please insert a valid text.
+      </div>
+    </div>
 
-    <button *ngIf="!editMode" (click)="onSubmit(result)" class="btn btn-sm btn-primary">
-      <span class="glyphicon glyphicon-plus-sign"></span>
-      Create the Answer!
-    </button>
+    <div class="form-group" [ngClass]="{ 'has-error has-feedback': hasError('Value') }">
+      <label for="value">Score Value:</label>
+      <br />
+      <select class="form-control"
+              formControlName="Value" required>
+        <option value="">Pick a value...</option>
+        <option *ngFor="let num of [-5,4,3,2,1,0,1,2,3,4,5]"
+                [value]="num">
+          {{num}}
+        </option>
+      </select>
+      <span *ngIf="hasError('Value')" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+      <div *ngIf="hasError('Value')"
+           class="help-block">
+        Please select a valid number between -5 and 5.
+      </div>
+    </div>
 
-    <input class="btn btn-sm btn-default" type="button" value="Cancel" (click)="onBack()" />
-  </div>
+    <div>
+      <button class="btn btn-sm btn-success"
+              *ngIf="editMode"
+              type="submit"
+              [disabled]="form.invalid">
+        Apply Changes
+      </button>
+
+      <button *ngIf="!editMode"
+              class="btn btn-sm btn-primary"
+              type="submit"
+              [disabled]="form.invalid">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Create the Answer!
+      </button>
+
+      <button class="btn btn-sm btn-default" type="button" (click)="onBack()">
+        Cancel
+      </button>
+    </div>
+  </form>
+
 </div>
