@@ -6,7 +6,7 @@ import { DataQuizService } from '../services/data-quiz.service';
 @Component({
     selector: 'quiz-edit',
     templateUrl: './quiz-edit.component.html',
-    styleUrls: ['./quiz-edit.component.css']
+    styleUrls: ['./quiz-edit.component.less']
 })
 
 export class QuizEditComponent implements OnInit {

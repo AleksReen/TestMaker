@@ -6,7 +6,7 @@ import { DataQuizService } from '../services/data-quiz.service';
 @Component({
     selector: 'quiz',
     templateUrl: './quiz.component.html',
-    styleUrls: ['./quiz.component.css']
+    styleUrls: ['./quiz.component.less']
 })
 
 export class QuizComponent implements OnInit {
@@ -42,5 +42,9 @@ export class QuizComponent implements OnInit {
     if (confirm("Do you want to delete this quiz?")) {
       this.dataQuiz.deleteQuiz(this.quiz.Id);
     }
+  }
+
+  onBack() {
+    this.router.navigate(["/"]);
   }
 }

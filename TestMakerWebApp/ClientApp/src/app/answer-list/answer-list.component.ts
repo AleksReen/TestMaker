@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'answer-list',
     templateUrl: './answer-list.component.html',
-    styleUrls: ['./answer-list.component.css']
+    styleUrls: ['./answer-list.component.less']
 })
 
 export class AnswerListComponent implements OnChanges {

@@ -5,7 +5,7 @@ import { DataResultService } from '../services/data-result.service';
 @Component({
     selector: 'result-list',
     templateUrl: './result-list.component.html',
-    styleUrls: ['./result-list.component.css']
+    styleUrls: ['./result-list.component.less']
 })
 
 export class ResultListComponent implements OnChanges {
