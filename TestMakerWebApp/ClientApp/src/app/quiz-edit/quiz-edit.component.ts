@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataQuizService } from '../services/data-quiz.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'quiz-edit',
@@ -13,10 +14,12 @@ export class QuizEditComponent implements OnInit {
 
   title: string;
   quiz: Quiz;
+  form: FormGroup;
   editMode: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private dataQuiz: DataQuizService) {
-    this.quiz = <Quiz>{};  
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private dataQuiz: DataQuizService, private formBuilder: FormBuilder) {
+    this.quiz = <Quiz>{};
+    this.createForm()
   }
 
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class QuizEditComponent implements OnInit {
       this.dataQuiz.getQuizById(id).subscribe(result => {
         this.quiz = result;
         this.title = "Edit - " + this.quiz.Title;
+        this.updateForm();
       }, error => console.error(error));
     }
     else {
@@ -38,15 +42,56 @@ export class QuizEditComponent implements OnInit {
     }
   }
 
+  createForm(): any {
+    this.form = this.formBuilder.group({
+      Title: ['', Validators.required],
+      Description: '',
+      Text: ''
+    });
+  }
+
+  updateForm(): any {
+    this.form.setValue({
+      Title: this.quiz.Title,
+      Description: this.quiz.Description || '',
+      Text: this.quiz.Text || ''
+    });
+  }
+
   onSubmit(quiz: Quiz) {
 
+    let tempQuiz = <Quiz>{};
+    tempQuiz.Title = this.form.value.Title;
+    tempQuiz.Description = this.form.value.Description;
+    tempQuiz.Text = this.form.value.Text;
+
     if (this.editMode) {
-      this.dataQuiz.putQuiz(quiz);
+      tempQuiz.Id = this.quiz.Id;
+      this.dataQuiz.putQuiz(tempQuiz);
     }
-    else {    
-      this.dataQuiz.postQuiz(quiz);
+    else {
+      this.dataQuiz.postQuiz(tempQuiz);
     }
 
+  }
+
+  getFormControl(name: string) {
+    return this.form.get(name);
+  }
+
+  isValid(name: string) {
+    let e = this.getFormControl(name);
+    return e && e.valid;
+  }
+
+  isChanged(name: string) {
+    let e = this.getFormControl(name);
+    return e && (e.dirty || e.touched);
+  }
+
+  hasError(name: string) {
+    let e = this.getFormControl(name);
+    return e && (e.dirty || e.touched) && !e.valid;
   }
 
   onBack() {
