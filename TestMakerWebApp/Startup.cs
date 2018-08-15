@@ -1,16 +1,22 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Reflection;
+using System.Text;
 using TestMaker.Data.Context;
 using TestMaker.Data.Proccesor;
 using TestMaker.Data.Processor.Providers;
 using TestMaker.Data.SampleData;
+using TestMaker.Models.Data;
 
 namespace TestMakerWebApp
 {
@@ -37,6 +43,41 @@ namespace TestMakerWebApp
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 
                 m => m.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name)));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                opts => {
+                    opts.Password.RequireDigit = true;
+                    opts.Password.RequireLowercase = true;
+                    opts.Password.RequireUppercase = true;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequiredLength = 7;
+                }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // Add Authentication with JWT Tokens
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultAuthenticateScheme =
+                JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    // standard configuration
+                    ValidIssuer = Configuration["Auth:Jwt:Issuer"],
+                    ValidAudience = Configuration["Auth:Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
+                    ClockSkew = TimeSpan.Zero,
+                    // security switches
+                    RequireExpirationTime = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = true
+                };
+            });
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -65,9 +106,16 @@ namespace TestMakerWebApp
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+
                 dbContext.Database.Migrate();
-                DbSeeder.Seed(dbContext);
+                DbSeeder.Seed(dbContext, roleManager, userManager);
             }
+
+            // Add the AuthenticationMiddleware to the pipeline
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

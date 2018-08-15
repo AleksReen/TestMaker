@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestMaker.Data.Context;
 using TestMaker.Models.Data;
 
@@ -11,12 +13,12 @@ namespace TestMaker.Data.SampleData
 {
     public static class DbSeeder
     {
-        public static void Seed(ApplicationDbContext dbContext)
+        public static void Seed(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
 
             if (!dbContext.Users.Any())
             {
-                CreateUsers(dbContext);
+                CreateUsers(dbContext, roleManager, userManager).GetAwaiter().GetResult();
             }
 
             if (!dbContext.Quizzes.Any())
@@ -26,20 +28,45 @@ namespace TestMaker.Data.SampleData
         }
 
         #region Seed Methods
-        private static void CreateUsers(ApplicationDbContext dbContext)
+        private static async Task CreateUsers(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             // local variables
             DateTime createdDate = new DateTime(2018, 07, 01, 12, 30, 00);
             DateTime lastModifiedDate = DateTime.Now;
+
+            string role_Administrator = "Administrator";
+            string role_RegisteredUser = "RegisteredUser";
+
+            if (!await roleManager.RoleExistsAsync(role_Administrator))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role_Administrator));
+            }
+            if (!await roleManager.RoleExistsAsync(role_RegisteredUser))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role_RegisteredUser));
+            }
+
             // Create the "Admin" ApplicationUser account (if it doesn't exist already)
             var user_Admin = new ApplicationUser()
             {
-                Id = Guid.NewGuid().ToString(),
+                SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = "Admin",
                 Email = "admin@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
+
+            if (await userManager.FindByNameAsync(user_Admin.UserName) == null)
+            {
+                await userManager.CreateAsync(user_Admin, "Pass4Admin");
+                await userManager.AddToRoleAsync(user_Admin,
+                role_RegisteredUser);
+                await userManager.AddToRoleAsync(user_Admin,
+                role_Administrator);
+                // Remove Lockout and E-Mail confirmation.
+                user_Admin.EmailConfirmed = true;
+                user_Admin.LockoutEnabled = false;
+            }
 
             // Insert the Admin user into the Database
             dbContext.Users.Add(user_Admin);
@@ -48,7 +75,7 @@ namespace TestMaker.Data.SampleData
             // Create some sample registered user accounts (if they don't exist already)
             var user_Ivan = new ApplicationUser()
             {
-                Id = Guid.NewGuid().ToString(),
+                SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = "Ivan",
                 Email = "ivan@testmakerfree.com",
                 CreatedDate = createdDate,
@@ -56,7 +83,7 @@ namespace TestMaker.Data.SampleData
             };
             var user_Aleks = new ApplicationUser()
             {
-                Id = Guid.NewGuid().ToString(),
+                SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = "Aleks",
                 Email = "aleks@testmakerfree.com",
                 CreatedDate = createdDate,
@@ -64,16 +91,44 @@ namespace TestMaker.Data.SampleData
             };
             var user_Ira = new ApplicationUser()
             {
-                Id = Guid.NewGuid().ToString(),
+                SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = "Ira",
                 Email = "ira@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
-            // Insert sample registered users into the Database
-            dbContext.Users.AddRange(user_Ivan, user_Aleks, user_Ira);
+
+            // Insert sample registered users into the Database and also assign the "Registered" role to him.
+            if (await userManager.FindByNameAsync(user_Ivan.UserName) == null)
+            {
+                await userManager.CreateAsync(user_Ivan, "Pass4Ivan");
+                await userManager.AddToRoleAsync(user_Ivan,
+                role_RegisteredUser);
+                // Remove Lockout and E-Mail confirmation.
+                user_Ivan.EmailConfirmed = true;
+                user_Ivan.LockoutEnabled = false;
+            }
+            if (await userManager.FindByNameAsync(user_Aleks.UserName) == null)
+            {
+                await userManager.CreateAsync(user_Aleks, "Pass4Aleks");
+                await userManager.AddToRoleAsync(user_Aleks,
+                role_RegisteredUser);
+                // Remove Lockout and E-Mail confirmation.
+                user_Aleks.EmailConfirmed = true;
+                user_Aleks.LockoutEnabled = false;
+            }
+            if (await userManager.FindByNameAsync(user_Ira.UserName) == null)
+            {
+                await userManager.CreateAsync(user_Ira, "Pass4Ira");
+                await userManager.AddToRoleAsync(user_Ira,
+                role_RegisteredUser);
+                // Remove Lockout and E-Mail confirmation.
+                user_Ira.EmailConfirmed = true;
+                user_Ira.LockoutEnabled = false;
+            }
+ 
 #endif
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
         private static void CreateQuizzes(ApplicationDbContext dbContext)

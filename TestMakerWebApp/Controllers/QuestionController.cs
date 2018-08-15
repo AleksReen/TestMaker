@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 using TestMaker.Data;
 using TestMaker.Data.Context;
-using TestMaker.Data.Proccesor;
 using TestMaker.Data.Processor.Providers;
+using TestMaker.Models.Data;
 using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
@@ -16,8 +13,13 @@ namespace TestMakerWebApp.Controllers
     {
         private IQuestionProvider dataProcessor;
 
-        public QuestionController(ApplicationDbContext dbContext, IQuestionProvider DataProcessor)
-            :base(dbContext)
+        public QuestionController(
+            ApplicationDbContext dbContext, 
+            IQuestionProvider DataProcessor,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration)
+            :base(dbContext, roleManager, userManager, configuration)
         {
             dataProcessor = DataProcessor;
         }
