@@ -3,7 +3,7 @@
 namespace TestMaker.Models.ViewModels
 {
     [JsonObject(MemberSerialization.OptOut)]
-    class TokenResponseViewModel
+    public class TokenResponseViewModel
     {
         public TokenResponseViewModel()
         {

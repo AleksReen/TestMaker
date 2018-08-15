@@ -53,14 +53,15 @@ namespace TestMakerWebApp
                     opts.Password.RequiredLength = 7;
                 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
-            // Add Authentication with JWT Tokens
+            // Add Authentication
             services.AddAuthentication(opts =>
             {
                 opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultAuthenticateScheme =
-                JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(cfg =>
+            })
+            // Add Jwt token support
+            .AddJwtBearer(cfg =>
             {
                 cfg.RequireHttpsMetadata = false;
                 cfg.SaveToken = true;
@@ -68,15 +69,18 @@ namespace TestMakerWebApp
                 {
                     // standard configuration
                     ValidIssuer = Configuration["Auth:Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
                     ValidAudience = Configuration["Auth:Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
                     ClockSkew = TimeSpan.Zero,
+
                     // security switches
                     RequireExpirationTime = true,
                     ValidateIssuer = true,
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = true
                 };
+                cfg.IncludeErrorDetails = true;
             });
 
             // In production, the Angular files will be served from this directory

@@ -3,11 +3,11 @@
 namespace TestMaker.Models.ViewModels
 {
     [JsonObject(MemberSerialization.OptOut)]
-    class TokenRequestViewModel {
+    public class TokenRequestViewModel {
 
         public TokenRequestViewModel(){}
 
-        public string grand_type { get; set; }
+        public string grant_type { get; set; }
         public string client_id { get; set; }
         public string client_secret { get; set; }
         public string username { get; set; }

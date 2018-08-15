@@ -13,30 +13,40 @@ namespace TestMaker.Data.SampleData
 {
     public static class DbSeeder
     {
-        public static void Seed(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        #region Public Methods
+        public static void Seed(
+            ApplicationDbContext dbContext,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager
+            )
         {
-
+            // Create default Users (if there are none)
             if (!dbContext.Users.Any())
             {
-                CreateUsers(dbContext, roleManager, userManager).GetAwaiter().GetResult();
+                CreateUsers(dbContext, roleManager, userManager)
+                    .GetAwaiter()
+                    .GetResult();
             }
 
-            if (!dbContext.Quizzes.Any())
-            {
-                CreateQuizzes(dbContext);
-            }
+            // Create default Quizzes (if there are none) together with their set of Q&A
+            if (!dbContext.Quizzes.Any()) CreateQuizzes(dbContext);
         }
+        #endregion
 
         #region Seed Methods
-        private static async Task CreateUsers(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        private static async Task CreateUsers(
+            ApplicationDbContext dbContext,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager)
         {
             // local variables
-            DateTime createdDate = new DateTime(2018, 07, 01, 12, 30, 00);
+            DateTime createdDate = new DateTime(2016, 03, 01, 12, 30, 00);
             DateTime lastModifiedDate = DateTime.Now;
 
             string role_Administrator = "Administrator";
             string role_RegisteredUser = "RegisteredUser";
 
+            //Create Roles (if they doesn't exist yet)
             if (!await roleManager.RoleExistsAsync(role_Administrator))
             {
                 await roleManager.CreateAsync(new IdentityRole(role_Administrator));
@@ -46,7 +56,7 @@ namespace TestMaker.Data.SampleData
                 await roleManager.CreateAsync(new IdentityRole(role_RegisteredUser));
             }
 
-            // Create the "Admin" ApplicationUser account (if it doesn't exist already)
+            // Create the "Admin" ApplicationUser account
             var user_Admin = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -55,78 +65,72 @@ namespace TestMaker.Data.SampleData
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
-
-            if (await userManager.FindByNameAsync(user_Admin.UserName) == null)
+            // Insert "Admin" into the Database and assign the "Administrator" and "Registered" roles to him.
+            if (await userManager.FindByIdAsync(user_Admin.Id) == null)
             {
                 await userManager.CreateAsync(user_Admin, "Pass4Admin");
-                await userManager.AddToRoleAsync(user_Admin,
-                role_RegisteredUser);
-                await userManager.AddToRoleAsync(user_Admin,
-                role_Administrator);
+                await userManager.AddToRoleAsync(user_Admin, role_RegisteredUser);
+                await userManager.AddToRoleAsync(user_Admin, role_Administrator);
                 // Remove Lockout and E-Mail confirmation.
                 user_Admin.EmailConfirmed = true;
                 user_Admin.LockoutEnabled = false;
             }
 
-            // Insert the Admin user into the Database
-            dbContext.Users.Add(user_Admin);
-
 #if DEBUG
-            // Create some sample registered user accounts (if they don't exist already)
-            var user_Ivan = new ApplicationUser()
+            // Create some sample registered user accounts
+            var user_Ryan = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = "Ivan",
-                Email = "ivan@testmakerfree.com",
+                UserName = "Ryan",
+                Email = "ryan@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
-            var user_Aleks = new ApplicationUser()
+
+            var user_Solice = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = "Aleks",
-                Email = "aleks@testmakerfree.com",
+                UserName = "Solice",
+                Email = "solice@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
-            var user_Ira = new ApplicationUser()
+
+            var user_Vodan = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = "Ira",
-                Email = "ira@testmakerfree.com",
+                UserName = "Vodan",
+                Email = "vodan@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
 
             // Insert sample registered users into the Database and also assign the "Registered" role to him.
-            if (await userManager.FindByNameAsync(user_Ivan.UserName) == null)
+            if (await userManager.FindByIdAsync(user_Ryan.Id) == null)
             {
-                await userManager.CreateAsync(user_Ivan, "Pass4Ivan");
-                await userManager.AddToRoleAsync(user_Ivan,
-                role_RegisteredUser);
+                await userManager.CreateAsync(user_Ryan, "Pass4Ryan");
+                await userManager.AddToRoleAsync(user_Ryan, role_RegisteredUser);
                 // Remove Lockout and E-Mail confirmation.
-                user_Ivan.EmailConfirmed = true;
-                user_Ivan.LockoutEnabled = false;
+                user_Ryan.EmailConfirmed = true;
+                user_Ryan.LockoutEnabled = false;
             }
-            if (await userManager.FindByNameAsync(user_Aleks.UserName) == null)
+            if (await userManager.FindByIdAsync(user_Solice.Id) == null)
             {
-                await userManager.CreateAsync(user_Aleks, "Pass4Aleks");
-                await userManager.AddToRoleAsync(user_Aleks,
-                role_RegisteredUser);
+                await userManager.CreateAsync(user_Solice, "Pass4Solice");
+                await userManager.AddToRoleAsync(user_Solice, role_RegisteredUser);
                 // Remove Lockout and E-Mail confirmation.
-                user_Aleks.EmailConfirmed = true;
-                user_Aleks.LockoutEnabled = false;
+                user_Solice.EmailConfirmed = true;
+                user_Solice.LockoutEnabled = false;
             }
-            if (await userManager.FindByNameAsync(user_Ira.UserName) == null)
+            if (await userManager.FindByIdAsync(user_Vodan.Id) == null)
             {
-                await userManager.CreateAsync(user_Ira, "Pass4Ira");
-                await userManager.AddToRoleAsync(user_Ira,
-                role_RegisteredUser);
+                await userManager.CreateAsync(user_Vodan, "Pass4Vodan");
+                await userManager.AddToRoleAsync(user_Vodan, role_RegisteredUser);
                 // Remove Lockout and E-Mail confirmation.
-                user_Ira.EmailConfirmed = true;
-                user_Ira.LockoutEnabled = false;
+                user_Vodan.EmailConfirmed = true;
+                user_Vodan.LockoutEnabled = false;
             }
- 
+
 #endif
             await dbContext.SaveChangesAsync();
         }
@@ -134,10 +138,14 @@ namespace TestMaker.Data.SampleData
         private static void CreateQuizzes(ApplicationDbContext dbContext)
         {
             // local variables
-            DateTime createdDate = new DateTime(2018, 07, 01, 12, 30, 00);
+            DateTime createdDate = new DateTime(2017, 08, 08, 12, 30, 00);
             DateTime lastModifiedDate = DateTime.Now;
+
             // retrieve the admin user, which we'll use as default author.
-            var authorId = dbContext.Users.Where(u => u.UserName == "Admin").FirstOrDefault().Id;
+            var authorId = dbContext.Users
+                .Where(u => u.UserName == "Admin")
+                .FirstOrDefault()
+                .Id;
 
 #if DEBUG
             // create 47 sample quizzes with auto-generated data
@@ -146,17 +154,17 @@ namespace TestMaker.Data.SampleData
             for (int i = 1; i <= num; i++)
             {
                 CreateSampleQuiz(
-                dbContext,
-                i,
-                authorId,
-                num - i,
-                3,
-                3,
-                3,
-                createdDate.AddDays(-num));
+                    dbContext,
+                    i,
+                    authorId,
+                    num - i,
+                    3,
+                    3,
+                    3,
+                    createdDate.AddDays(-num));
             }
-
 #endif
+
             // create 3 more quizzes with better descriptive data
             // (we'll add the questions, answers & results later on)
             EntityEntry<Quiz> e1 = dbContext.Quizzes.Add(new Quiz()
@@ -168,7 +176,7 @@ namespace TestMaker.Data.SampleData
                         "this test will prove if your will is strong enough " +
                         "to adhere to the principles of the light side of the Force " +
                         "or if you're fated to embrace the dark side. " +
-                        "No you want to become a true JEDI, you can't possibly miss this!",
+                        "No  you want to become a true JEDI, you can't possibly miss this!",
                 ViewCount = 2343,
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
@@ -193,7 +201,7 @@ namespace TestMaker.Data.SampleData
                 Title = "Which Shingeki No Kyojin character are you?",
                 Description = "Attack On Titan personality test",
                 Text = @"Do you relentlessly seek revenge like Eren? " +
-                        "Are you willing to put your like on the stake to protect your friends like Mikasa ? " +
+                        "Are you willing to put your like on the stake to protect your friends like Mikasa? " +
                         "Would you trust your fighting skills like Levi " +
                         "or rely on your strategies and tactics like Arwin? " +
                         "Unveil your true self with this Attack On Titan personality test!",
@@ -216,26 +224,26 @@ namespace TestMaker.Data.SampleData
         /// <param name="id">the quiz ID</param>
         /// <param name="createdDate">the quiz CreatedDate</param>
         private static void CreateSampleQuiz(
-         ApplicationDbContext dbContext,
-         int num,
-         string authorId,
-         int viewCount,
-         int numberOfQuestions,
-         int numberOfAnswersPerQuestion,
-         int numberOfResults,
-         DateTime createdDate)
+            ApplicationDbContext dbContext,
+            int num,
+            string authorId,
+            int viewCount,
+            int numberOfQuestions,
+            int numberOfAnswersPerQuestion,
+            int numberOfResults,
+            DateTime createdDate)
         {
             var quiz = new Quiz()
             {
                 UserId = authorId,
                 Title = String.Format("Quiz {0} Title", num),
                 Description = String.Format("This is a sample description for quiz {0}.", num),
-                Text = "This is a sample quiz created by the DbSeeder class for testing purposes. All the questions, answers & results are auto-generated as well.",
+                Text = "This is a sample quiz created by the DbSeeder class for testing purposes. " +
+                        "All the questions, answers & results are auto-generated as well.",
                 ViewCount = viewCount,
                 CreatedDate = createdDate,
                 LastModifiedDate = createdDate
             };
-
             dbContext.Quizzes.Add(quiz);
             dbContext.SaveChanges();
 
@@ -244,11 +252,11 @@ namespace TestMaker.Data.SampleData
                 var question = new Question()
                 {
                     QuizId = quiz.Id,
-                    Text = "This is a sample question created by the DbSeeder class for testing purposes. All the child answers are auto-generated as well.",
+                    Text = "This is a sample question created by the DbSeeder class for testing purposes. " +
+                        "All the child answers are auto-generated as well.",
                     CreatedDate = createdDate,
                     LastModifiedDate = createdDate
                 };
-
                 dbContext.Questions.Add(question);
                 dbContext.SaveChanges();
 
@@ -272,12 +280,15 @@ namespace TestMaker.Data.SampleData
                     QuizId = quiz.Id,
                     Text = "This is a sample result created by the DbSeeder class for testing purposes. ",
                     MinValue = 0,
+                    // max value should be equal to answers number * max answer value
                     MaxValue = numberOfAnswersPerQuestion * 2,
                     CreatedDate = createdDate,
                     LastModifiedDate = createdDate
                 });
             }
+            dbContext.SaveChanges();
         }
         #endregion
     }
 }
+

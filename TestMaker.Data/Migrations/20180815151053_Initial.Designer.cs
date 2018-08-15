@@ -10,8 +10,8 @@ using TestMaker.Data.Context;
 namespace TestMaker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180815103221_Identity")]
-    partial class Identity
+    [Migration("20180815151053_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
