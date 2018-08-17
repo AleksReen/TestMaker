@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 //Services
@@ -10,6 +10,7 @@ import { DataQuestionService } from './services/data-question.service';
 import { DataAnswerService } from './services/data-answer.service';
 import { DataResultService } from './services/data-result.service';
 import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './services/auth-interceptor';
 
 //Components
 import { AppComponent } from './app.component';
@@ -70,7 +71,17 @@ import { QuizSearchComponent } from './quiz-search/quiz-search.component';
       { path: '**', component: PageNotFoundComponent }
     ])
   ],
-  providers: [DataQuizService, DataQuestionService, DataAnswerService, DataResultService, AuthService],
+  providers: [
+    DataQuizService,
+    DataQuestionService,
+    DataAnswerService,
+    DataResultService,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi:true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
