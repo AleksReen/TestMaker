@@ -9,6 +9,7 @@ import { DataQuizService } from './services/data-quiz.service';
 import { DataQuestionService } from './services/data-question.service';
 import { DataAnswerService } from './services/data-answer.service';
 import { DataResultService } from './services/data-result.service';
+import { AuthService } from './services/auth.service';
 
 //Components
 import { AppComponent } from './app.component';
@@ -69,7 +70,7 @@ import { QuizSearchComponent } from './quiz-search/quiz-search.component';
       { path: '**', component: PageNotFoundComponent }
     ])
   ],
-  providers: [DataQuizService, DataQuestionService, DataAnswerService, DataResultService],
+  providers: [DataQuizService, DataQuestionService, DataAnswerService, DataResultService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

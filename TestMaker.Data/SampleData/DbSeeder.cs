@@ -78,57 +78,57 @@ namespace TestMaker.Data.SampleData
 
 #if DEBUG
             // Create some sample registered user accounts
-            var user_Ryan = new ApplicationUser()
+            var user_Aleks = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = "Ryan",
-                Email = "ryan@testmakerfree.com",
+                UserName = "Aleks",
+                Email = "aleks@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
 
-            var user_Solice = new ApplicationUser()
+            var user_Ivan = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = "Solice",
-                Email = "solice@testmakerfree.com",
+                UserName = "Ivan",
+                Email = "Ivan@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
 
-            var user_Vodan = new ApplicationUser()
+            var user_Petr = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = "Vodan",
-                Email = "vodan@testmakerfree.com",
+                UserName = "Petr",
+                Email = "petr@testmakerfree.com",
                 CreatedDate = createdDate,
                 LastModifiedDate = lastModifiedDate
             };
 
             // Insert sample registered users into the Database and also assign the "Registered" role to him.
-            if (await userManager.FindByIdAsync(user_Ryan.Id) == null)
+            if (await userManager.FindByIdAsync(user_Aleks.Id) == null)
             {
-                await userManager.CreateAsync(user_Ryan, "Pass4Ryan");
-                await userManager.AddToRoleAsync(user_Ryan, role_RegisteredUser);
+                await userManager.CreateAsync(user_Aleks, "Pass4Aleks");
+                await userManager.AddToRoleAsync(user_Aleks, role_RegisteredUser);
                 // Remove Lockout and E-Mail confirmation.
-                user_Ryan.EmailConfirmed = true;
-                user_Ryan.LockoutEnabled = false;
+                user_Aleks.EmailConfirmed = true;
+                user_Aleks.LockoutEnabled = false;
             }
-            if (await userManager.FindByIdAsync(user_Solice.Id) == null)
+            if (await userManager.FindByIdAsync(user_Ivan.Id) == null)
             {
-                await userManager.CreateAsync(user_Solice, "Pass4Solice");
-                await userManager.AddToRoleAsync(user_Solice, role_RegisteredUser);
+                await userManager.CreateAsync(user_Ivan, "Pass4Ivan");
+                await userManager.AddToRoleAsync(user_Ivan, role_RegisteredUser);
                 // Remove Lockout and E-Mail confirmation.
-                user_Solice.EmailConfirmed = true;
-                user_Solice.LockoutEnabled = false;
+                user_Ivan.EmailConfirmed = true;
+                user_Ivan.LockoutEnabled = false;
             }
-            if (await userManager.FindByIdAsync(user_Vodan.Id) == null)
+            if (await userManager.FindByIdAsync(user_Petr.Id) == null)
             {
-                await userManager.CreateAsync(user_Vodan, "Pass4Vodan");
-                await userManager.AddToRoleAsync(user_Vodan, role_RegisteredUser);
+                await userManager.CreateAsync(user_Petr, "Pass4Petr");
+                await userManager.AddToRoleAsync(user_Petr, role_RegisteredUser);
                 // Remove Lockout and E-Mail confirmation.
-                user_Vodan.EmailConfirmed = true;
-                user_Vodan.LockoutEnabled = false;
+                user_Petr.EmailConfirmed = true;
+                user_Petr.LockoutEnabled = false;
             }
 
 #endif
