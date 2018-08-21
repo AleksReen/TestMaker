@@ -34,6 +34,7 @@ namespace TestMaker.Data.Proccesor
             quiz.Description = model.Description;
             quiz.Text = model.Text;
             quiz.Notes = model.Notes;
+            quiz.UserId = model.UserId;
 
             quiz.LastModifiedDate = model.CreatedDate;
 
@@ -54,7 +55,7 @@ namespace TestMaker.Data.Proccesor
                 CreatedDate = DateTime.Now,
                 LastModifiedDate = model.CreatedDate,
 
-                UserId = context.Users.Where(u => u.UserName == "Admin").FirstOrDefault().Id
+                UserId = model.UserId
             };
 
             context.Add(quiz);

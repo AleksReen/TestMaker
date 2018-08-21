@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataQuizService } from '../services/data-quiz.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'quiz-edit',
@@ -17,7 +18,13 @@ export class QuizEditComponent implements OnInit {
   form: FormGroup;
   editMode: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private dataQuiz: DataQuizService, private formBuilder: FormBuilder) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private dataQuiz: DataQuizService,
+    private formBuilder: FormBuilder,
+    private authService: AuthService)
+  {
     this.quiz = <Quiz>{};
     this.createForm()
   }
@@ -60,10 +67,13 @@ export class QuizEditComponent implements OnInit {
 
   onSubmit(quiz: Quiz) {
 
+    let userToken = this.authService.getAuth();
+
     let tempQuiz = <Quiz>{};
     tempQuiz.Title = this.form.value.Title;
     tempQuiz.Description = this.form.value.Description;
     tempQuiz.Text = this.form.value.Text;
+    tempQuiz.UserId = userToken.userId;
 
     if (this.editMode) {
       tempQuiz.Id = this.quiz.Id;

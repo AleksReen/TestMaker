@@ -86,12 +86,11 @@ namespace TestMakerWebApp.Controllers
                 var response = new TokenResponseViewModel()
                 {
                     token = encodedToken,
-                    expiration = tokenExpirationMins
+                    expiration = tokenExpirationMins,
+                    userId = user.Id
                 };
 
                 return new JsonResult(response, JsonSettings);
-
-                //return Json(response);
 
             }
             catch (Exception)

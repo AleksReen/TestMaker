@@ -1,5 +1,6 @@
 
 interface TokenResponse {
   token: string,
-  expiration: number
+  expiration: number,
+  userId: string
 };
