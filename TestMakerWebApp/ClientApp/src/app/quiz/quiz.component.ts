@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { DataQuizService } from '../services/data-quiz.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'quiz',
@@ -13,7 +13,12 @@ export class QuizComponent implements OnInit {
 
   quiz: Quiz;
 
-  constructor( private dataQuiz: DataQuizService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(
+    private dataQuiz: DataQuizService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    public authService: AuthService)
+  {
     this.quiz = <Quiz>{};
   }
 

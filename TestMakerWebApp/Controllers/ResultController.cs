@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TestMaker.Data;
@@ -40,6 +41,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody] ResultViewModel model)
         {
             if (model == null) return new StatusCodeResult(500);
@@ -52,6 +54,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] ResultViewModel model)
         {
             if (model == null) return new StatusCodeResult(500);
@@ -60,6 +63,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var result = dataProcessor.DeleteResult(DbContext, id);

@@ -44,16 +44,18 @@ namespace TestMaker.Data.Proccesor
 
         public QuizViewModel PostQuiz(ApplicationDbContext context, QuizViewModel model)
         {
-            var quiz = new Quiz();
-            quiz.Title = model.Title;
-            quiz.Description = model.Description;
-            quiz.Text = model.Text;
-            quiz.Notes = model.Notes;
+            var quiz = new Quiz
+            {
+                Title = model.Title,
+                Description = model.Description,
+                Text = model.Text,
+                Notes = model.Notes,
 
-            quiz.CreatedDate = DateTime.Now;
-            quiz.LastModifiedDate = model.CreatedDate;
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = model.CreatedDate,
 
-            quiz.UserId = context.Users.Where(u => u.UserName == "Admin").FirstOrDefault().Id;
+                UserId = context.Users.Where(u => u.UserName == "Admin").FirstOrDefault().Id
+            };
 
             context.Add(quiz);
             context.SaveChanges();

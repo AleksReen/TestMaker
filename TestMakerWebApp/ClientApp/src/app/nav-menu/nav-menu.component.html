@@ -30,15 +30,21 @@
               </a>
             </li>
 
-            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <li *ngIf="!this.authService.isLoggedIn()" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
               <a [routerLink]='["/login"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-log-in'></span> Login
               </a>
             </li>
 
-            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <li *ngIf="this.authService.isLoggedIn()" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
               <a [routerLink]='["/quiz/create"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-plus'></span> Create Quiz
+              </a>
+            </li>
+
+            <li *ngIf="this.authService.isLoggedIn()" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a (click)='logout()'>
+                <span class='glyphicon glyphicon-log-out'></span> Logout
               </a>
             </li>
 
