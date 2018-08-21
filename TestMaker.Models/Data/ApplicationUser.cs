@@ -1,24 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace TestMaker.Models.Data
 {
-    public class ApplicationUser
+    public class ApplicationUser: IdentityUser
     {
-        [Key]
-        [Required]
-        public string  Id { get; set; }
-
-        [Required]
-        [MaxLength(128)]
-        public string UserName { get; set; }
-
-        [Required]
-        public string Email { get; set; }
-
         public string  DisplayName { get; set; }
 
         public string  Notes { get; set; }

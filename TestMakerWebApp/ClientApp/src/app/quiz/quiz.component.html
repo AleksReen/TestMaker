@@ -57,7 +57,7 @@
           <span class="glyphicon glyphicon-backward"></span>
           Back
         </a>
-        <div class="edit">
+        <div *ngIf="authService.isLoggedIn()" class="edit">
           <input type="button" value="Edit"
                  (click)="onEdit()"
                  class="btn btn-sm btn-warning" />

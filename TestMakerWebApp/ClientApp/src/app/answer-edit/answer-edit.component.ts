@@ -29,7 +29,7 @@ export class AnswerEditComponent {
   ngOnInit(): void {
     this.getData();
   }
-
+ 
   createForm() {
     this.form = this.formBuilder.group({
       Text: ['', Validators.required],

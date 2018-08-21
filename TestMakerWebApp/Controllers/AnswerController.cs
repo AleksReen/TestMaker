@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TestMaker.Data;
 using TestMaker.Data.Context;
-using TestMaker.Data.Proccesor;
 using TestMaker.Data.Processor.Providers;
+using TestMaker.Models.Data;
 using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
@@ -12,8 +14,13 @@ namespace TestMakerWebApp.Controllers
     {
         private IAnswerProvider dataProcessor;
 
-        public AnswerController(ApplicationDbContext dbContext, IDataProcessor DataProcessor)
-            :base(dbContext)
+        public AnswerController(
+            ApplicationDbContext dbContext,
+            IAnswerProvider DataProcessor,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration)            
+            :base(dbContext, roleManager,userManager,configuration )
         {
             dataProcessor = DataProcessor;
         }
@@ -34,6 +41,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody] AnswerViewModel model)
         {
             if (model == null) return new StatusCodeResult(500);
@@ -46,6 +54,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] AnswerViewModel model)
         {
             if (model == null) return new StatusCodeResult(500);
@@ -54,6 +63,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var result = dataProcessor.DeleteAnswer(DbContext, id);

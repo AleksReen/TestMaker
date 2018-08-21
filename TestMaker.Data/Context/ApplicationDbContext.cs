@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using TestMaker.Models.Data;
 
 namespace TestMaker.Data.Context
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options): 
             base(options) { }
@@ -36,8 +37,6 @@ namespace TestMaker.Data.Context
             modelBuilder.Entity<Result>().Property(i => i.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Result>().HasOne(i => i.Quiz).WithMany(u => u.Results);
         }
-
-        public DbSet<ApplicationUser> Users { get; set; }
 
         public DbSet<Quiz> Quizzes { get; set; }
 

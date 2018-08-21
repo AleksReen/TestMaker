@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TestMaker.Data;
 using TestMaker.Data.Context;
 using TestMaker.Data.Processor.Providers;
+using TestMaker.Models.Data;
 using TestMaker.Models.ViewModels;
 
 namespace TestMakerWebApp.Controllers
@@ -11,8 +14,13 @@ namespace TestMakerWebApp.Controllers
     {
         private IQuizProvider dataProcessor;
 
-        public QuizController(ApplicationDbContext dbContext, IQuizProvider DataProcessor)
-            :base(dbContext)
+        public QuizController(
+            ApplicationDbContext dbContext, 
+            IQuizProvider DataProcessor,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration)
+            :base(dbContext, roleManager, userManager, configuration)
         {
             dataProcessor = DataProcessor;
         }
@@ -29,6 +37,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody] QuizViewModel model) {
 
             if (model == null) return new StatusCodeResult(500);
@@ -42,6 +51,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] QuizViewModel model) {
 
             if (model == null) return new StatusCodeResult(500);
@@ -51,6 +61,7 @@ namespace TestMakerWebApp.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id) {
 
             var result = dataProcessor.DeleteQuiz(DbContext, id);
