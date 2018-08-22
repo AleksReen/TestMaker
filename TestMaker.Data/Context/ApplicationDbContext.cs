@@ -8,7 +8,8 @@ using TestMaker.Models.Data;
 
 namespace TestMaker.Data.Context
 {
-    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
+
     {
         public ApplicationDbContext(DbContextOptions options): 
             base(options) { }
@@ -18,6 +19,7 @@ namespace TestMaker.Data.Context
 
             modelBuilder.Entity<ApplicationUser>().ToTable("Users");
             modelBuilder.Entity<ApplicationUser>().HasMany(u => u.Quizzes).WithOne(i => i.User);
+            modelBuilder.Entity<ApplicationUser>().HasMany(u => u.Tokens).WithOne(i => i.User);
 
             modelBuilder.Entity<Quiz>().ToTable("Quizzes");
             modelBuilder.Entity<Quiz>().Property(i => i.Id).ValueGeneratedOnAdd();
@@ -36,6 +38,10 @@ namespace TestMaker.Data.Context
             modelBuilder.Entity<Result>().ToTable("Results");
             modelBuilder.Entity<Result>().Property(i => i.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Result>().HasOne(i => i.Quiz).WithMany(u => u.Results);
+
+            modelBuilder.Entity<Token>().ToTable("Tokens");
+            modelBuilder.Entity<Token>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Token>().HasOne(i => i.User).WithMany(u => u.Tokens);
         }
 
         public DbSet<Quiz> Quizzes { get; set; }
@@ -45,5 +51,7 @@ namespace TestMaker.Data.Context
         public DbSet<Answer> Answers { get; set; }
 
         public DbSet<Result> Results { get; set; }
+
+        public DbSet<Token> Tokens { get; set; }
     }
 }
