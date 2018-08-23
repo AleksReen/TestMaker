@@ -10,7 +10,7 @@ using TestMaker.Data.Context;
 namespace TestMaker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180815151053_Initial")]
+    [Migration("20180823141035_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -319,6 +319,32 @@ namespace TestMaker.Data.Migrations
                     b.ToTable("Results");
                 });
 
+            modelBuilder.Entity("TestMaker.Models.Data.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<int>("Type");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.Property<string>("Value")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -393,6 +419,14 @@ namespace TestMaker.Data.Migrations
                     b.HasOne("TestMaker.Models.Data.Quiz", "Quiz")
                         .WithMany("Results")
                         .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TestMaker.Models.Data.Token", b =>
+                {
+                    b.HasOne("TestMaker.Models.Data.ApplicationUser", "User")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
