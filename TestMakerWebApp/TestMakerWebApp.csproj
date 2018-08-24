@@ -45,6 +45,7 @@
     <None Remove="ClientApp\src\app\interfaces\quiz.ts" />
     <None Remove="ClientApp\src\app\interfaces\result.ts" />
     <None Remove="ClientApp\src\app\interfaces\token.response.ts" />
+    <None Remove="ClientApp\src\app\services\auth-response-interceptor.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +59,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\interfaces\quiz.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interfaces\result.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interfaces\token.response.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\auth-response-interceptor.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

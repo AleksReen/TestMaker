@@ -14,15 +14,19 @@ export class AuthService {
 
   }
 
-  login(username: string, password: string): Observable<boolean> {
-    let url = this.baseUrl + "api/token/auth";
-    var data = {
-      username: username,
-      password: password,
+  refreshToken(): Observable<boolean> {   
+    let data = {
       client_id: this.clientId,
-      grant_type: "password",
+      grant_type: "refresh_token",
+      refresh_token: this.getAuth()!.refresh_token,
       scope: "offline_access profile email"
     };
+
+    return this.getAuthFromServer(data);
+  }
+
+  getAuthFromServer(data: any): Observable<boolean> {
+    let url = this.baseUrl + "api/token/auth";
 
     return this.httpClient.post<TokenResponse>(url, data)
       .map((res) => {
@@ -31,14 +35,30 @@ export class AuthService {
           this.setAuth(res);
           return true;
         }
+
         return Observable.throw('Unauthorized');
       }).catch(error => {
+
         return new Observable<any>(error);
       });
   }
 
+  login(username: string, password: string): Observable<boolean> {
+   
+    let data = {
+      username: username,
+      password: password,
+      client_id: this.clientId,
+      grant_type: "password",
+      scope: "offline_access profile email"
+    };
+
+    return this.getAuthFromServer(data);
+  }
+
   logout(): boolean {
     this.setAuth(null);
+
     return true;
   }
 
@@ -51,6 +71,7 @@ export class AuthService {
         localStorage.removeItem(this.authKey);
       }
     }
+
     return true;
   }
 
@@ -60,6 +81,7 @@ export class AuthService {
       if (i) {
         return JSON.parse(i);
       }
+
       return null;
     }
   }
@@ -68,6 +90,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformID)) {
       return localStorage.getItem(this.authKey) != null;
     }
+
     return false;
   }
 }
