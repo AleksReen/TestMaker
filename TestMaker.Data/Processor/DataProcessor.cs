@@ -292,5 +292,29 @@ namespace TestMaker.Data.Proccesor
 
         #endregion
 
+        #region Token
+
+        public Token GetToken(ApplicationDbContext context, TokenRequestViewModel model)
+        {
+            return context.Tokens.FirstOrDefault(t => t.ClientId == model.client_id && t.Value == model.refresh_token);
+        }
+
+        public void UpdateToken(ApplicationDbContext dbContext, Token oldToken, Token newToken)
+        {
+            dbContext.Tokens.Remove(oldToken);
+            dbContext.Tokens.Add(newToken);
+
+            dbContext.SaveChanges();
+        }
+
+        public void AddNewRefreshToken(ApplicationDbContext dbContext, Token newToken)
+        {
+            dbContext.Tokens.Add(newToken);
+
+            dbContext.SaveChanges();
+        }
+
+        #endregion
+
     }
 }
