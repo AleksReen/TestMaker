@@ -40,6 +40,7 @@ namespace TestMakerWebApp
             services.AddTransient<IAnswerProvider, DataProcessor>();
             services.AddTransient<IResultProvider, DataProcessor>();
             services.AddTransient<ITokenProvider, DataProcessor>();
+            services.AddTransient<IUserProvider, DataProcessor>();
 
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 
