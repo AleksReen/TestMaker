@@ -8,6 +8,6 @@ using TestMaker.Models.ViewModels;
 
 namespace TestMaker.Data.Proccesor
 {
-    public interface IDataProcessor: IQuizProvider, IAnswerProvider, IQuestionProvider, IResultProvider
+    public interface IDataProcessor: IQuizProvider, IAnswerProvider, IQuestionProvider, IResultProvider, ITokenProvider
     {}
 }

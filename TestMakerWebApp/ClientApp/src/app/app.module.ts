@@ -29,6 +29,7 @@ import { AnswerListComponent } from './answer-list/answer-list.component';
 import { ResultListComponent } from './result-list/result-list.component';
 import { ResultEditComponent } from './result-edit/result-edit.component';
 import { QuizSearchComponent } from './quiz-search/quiz-search.component';
+import { AuthResponseInterceptor } from './services/auth-response-interceptor';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,13 @@ import { QuizSearchComponent } from './quiz-search/quiz-search.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi:true
-    }],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthResponseInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
