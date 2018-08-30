@@ -40,6 +40,7 @@ namespace TestMakerWebApp
             services.AddTransient<IAnswerProvider, DataProcessor>();
             services.AddTransient<IResultProvider, DataProcessor>();
             services.AddTransient<ITokenProvider, DataProcessor>();
+            services.AddTransient<IUserProvider, DataProcessor>();
 
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestMakerConnection"), 
@@ -47,11 +48,11 @@ namespace TestMakerWebApp
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                 opts => {
-                    opts.Password.RequireDigit = true;
-                    opts.Password.RequireLowercase = true;
-                    opts.Password.RequireUppercase = true;
+                    opts.Password.RequireDigit = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
                     opts.Password.RequireNonAlphanumeric = false;
-                    opts.Password.RequiredLength = 7;
+                    opts.Password.RequiredLength = 1;
                 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add Authentication

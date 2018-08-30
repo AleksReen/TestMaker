@@ -316,5 +316,14 @@ namespace TestMaker.Data.Proccesor
 
         #endregion
 
+        #region User
+
+        public void Save(ApplicationDbContext context)
+        {
+            context.SaveChanges();
+        }
+
+        #endregion
+
     }
 }
