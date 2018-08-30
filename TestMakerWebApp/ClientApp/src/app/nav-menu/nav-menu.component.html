@@ -32,7 +32,7 @@
 
             <li *ngIf="!this.authService.isLoggedIn()" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
               <a [routerLink]='["/login"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-log-in'></span> Login
+                <span class='glyphicon glyphicon-log-in'></span> Login / Register
               </a>
             </li>
 

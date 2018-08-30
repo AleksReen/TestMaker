@@ -10,7 +10,11 @@ import { DataQuestionService } from './services/data-question.service';
 import { DataAnswerService } from './services/data-answer.service';
 import { DataResultService } from './services/data-result.service';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
+
+//Interceptors
 import { AuthInterceptor } from './services/auth-interceptor';
+import { AuthResponseInterceptor } from './services/auth-response-interceptor';
 
 //Components
 import { AppComponent } from './app.component';
@@ -29,7 +33,7 @@ import { AnswerListComponent } from './answer-list/answer-list.component';
 import { ResultListComponent } from './result-list/result-list.component';
 import { ResultEditComponent } from './result-edit/result-edit.component';
 import { QuizSearchComponent } from './quiz-search/quiz-search.component';
-import { AuthResponseInterceptor } from './services/auth-response-interceptor';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,8 @@ import { AuthResponseInterceptor } from './services/auth-response-interceptor';
     AnswerListComponent,
     ResultListComponent,
     ResultEditComponent,
-    QuizSearchComponent
+    QuizSearchComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,6 +74,7 @@ import { AuthResponseInterceptor } from './services/auth-response-interceptor';
       { path: 'result/edit/:id', component: ResultEditComponent },
       { path: 'about', component: AboutComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
       { path: '**', component: PageNotFoundComponent }
     ])
   ],
@@ -78,6 +84,7 @@ import { AuthResponseInterceptor } from './services/auth-response-interceptor';
     DataAnswerService,
     DataResultService,
     AuthService,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -50,7 +50,7 @@ namespace TestMakerWebApp.Controllers
             var now = DateTime.Now;
 
             user = new ApplicationUser()
-            {
+            {              
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
                 Email = model.Email,
@@ -60,6 +60,7 @@ namespace TestMakerWebApp.Controllers
             };
 
             await UserManager.CreateAsync(user, model.Password);
+            await UserManager.AddToRoleAsync(user, "RegisteredUser");
 
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
